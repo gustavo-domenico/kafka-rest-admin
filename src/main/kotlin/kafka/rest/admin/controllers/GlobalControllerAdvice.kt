@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam
 @ControllerAdvice
 class GlobalControllerAdvice {
     @ModelAttribute
-    fun inject(@RequestParam("bootstrap-servers") bootstrapServers: String?, model: Model) {
+    fun inject(@RequestParam("bootstrap-servers") bootstrapServers: String, model: Model) {
         model.addAttribute("kafkaConsumerFactory", KafkaConsumerFactory.create(bootstrapServers))
     }
 }
