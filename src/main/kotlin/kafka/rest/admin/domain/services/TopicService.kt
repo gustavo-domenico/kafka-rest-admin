@@ -1,20 +1,21 @@
-package kafka.rest.admin.domain
+package kafka.rest.admin.domain.services
 
+import kafka.rest.admin.domain.factories.ConsumerFactory
 import org.apache.kafka.common.PartitionInfo
 import org.springframework.stereotype.Service
 import java.util.stream.Collectors
 
 @Service
-class TopicService {
-    fun list(kafkaConsumerFactory: KafkaConsumerFactory): Set<String> {
-        kafkaConsumerFactory.createConsumer().use { consumer ->
+class TopicService(val consumerFactory: ConsumerFactory) {
+    fun list(): Set<String> {
+        consumerFactory.build().use { consumer ->
             val map = consumer.listTopics()
             return map.keys
         }
     }
 
-    fun get(kafkaConsumerFactory: KafkaConsumerFactory, name: String?): List<String> {
-        kafkaConsumerFactory.createConsumer().use { consumer ->
+    fun get(name: String?): List<String> {
+        consumerFactory.build().use { consumer ->
             val map = consumer.listTopics()
             return map[name]!!.stream().map { obj: PartitionInfo -> obj.toString() }.collect(Collectors.toList())
         }
