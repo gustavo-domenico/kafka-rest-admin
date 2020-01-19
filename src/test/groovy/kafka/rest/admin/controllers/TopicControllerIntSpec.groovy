@@ -12,7 +12,7 @@ class TopicControllerIntSpec extends IntegrationTest {
 			def mvcResult = mockMvc.perform(get('/topics'))
 		then:
 			mvcResult.andExpect(status().isOk())
-					.andExpect(content().json("[]"))
+					.andExpect(content().json("[\"topicName\"]"))
 
 	}
 }

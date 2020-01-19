@@ -29,6 +29,8 @@ abstract class IntegrationTest extends Specification {
 			def kafkaContainer = new KafkaContainer()
 			kafkaContainer.start()
 
+			kafkaContainer.execInContainer("/bin/sh", "-c", "/usr/bin/kafka-topics --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic topicName");
+
 			TestPropertyValues.of(
 					"spring.kafka.consumer.bootstrap-servers:" + kafkaContainer.getBootstrapServers(),
 					"spring.kafka.producer.bootstrap-servers" + kafkaContainer.getBootstrapServers())
