@@ -11,14 +11,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc
 @SpringBootTest
-class ApplicationTest extends Specification {
+class ApplicationSpec extends Specification {
 	@Autowired
 	private MockMvc mockMvc
 
 	def "application has started successfully"() {
 		when:
-			def response = mockMvc.perform(get('/actuator/health'))
+			def mvcResult = mockMvc.perform(get('/actuator/health'))
 		then:
-			response.andExpect(status().isOk())
+			mvcResult.andExpect(status().isOk())
 	}
 }
