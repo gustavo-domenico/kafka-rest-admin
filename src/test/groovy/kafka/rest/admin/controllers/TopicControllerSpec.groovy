@@ -4,6 +4,7 @@ import kafka.rest.admin.domain.services.TopicService
 import spock.lang.Specification
 
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.oneTopic
+import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.oneTopicDetail
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.topics
 
 class TopicControllerSpec extends Specification {
@@ -22,7 +23,7 @@ class TopicControllerSpec extends Specification {
 		when:
 			def actual = topicController.get(oneTopic().name)
 		then:
-			1 * topicService.get(oneTopic().name) >> oneTopic()
-			actual == oneTopic()
+			1 * topicService.get(oneTopic().name) >> oneTopicDetail()
+			actual == oneTopicDetail()
 	}
 }

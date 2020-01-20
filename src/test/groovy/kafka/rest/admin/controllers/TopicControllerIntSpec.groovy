@@ -2,7 +2,7 @@ package kafka.rest.admin.controllers
 
 import kafka.rest.admin.infrastructure.IntegrationTest
 
-import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.onTopicPayload
+import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.onTopicDetailPayload
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.oneTopic
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.topicsPayload
 import static kafka.rest.admin.infrastructure.routes.Routes.RESOURCE_NAME
@@ -25,6 +25,6 @@ class TopicControllerIntSpec extends IntegrationTest {
 			def mvcResult = mockMvc.perform(get("${TOPICS}/{${RESOURCE_NAME}}", oneTopic().name))
 		then:
 			mvcResult.andExpect(status().isOk())
-					.andExpect(content().json(onTopicPayload()))
+					.andExpect(content().json(onTopicDetailPayload(port())))
 	}
 }

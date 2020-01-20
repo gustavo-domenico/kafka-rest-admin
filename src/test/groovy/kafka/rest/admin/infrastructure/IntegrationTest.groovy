@@ -1,12 +1,12 @@
 package kafka.rest.admin.infrastructure
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.util.TestPropertyValues
 import org.springframework.context.ApplicationContextInitializer
 import org.springframework.context.ConfigurableApplicationContext
+import org.springframework.kafka.core.KafkaAdmin
 import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
@@ -23,7 +23,14 @@ abstract class IntegrationTest extends Specification {
 	@Autowired
 	protected MockMvc mockMvc
 
-	protected ObjectMapper objectMapper = new ObjectMapper()
+	@Autowired
+	protected KafkaAdmin kafkaAdmin
+
+	protected def port() {
+		def props = kafkaAdmin.config["bootstrap.servers"] as ArrayList
+		def server = props.get(0) as String
+		return server.substring(server.lastIndexOf(':') + 1).toInteger()
+	}
 
 	static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 		@Override

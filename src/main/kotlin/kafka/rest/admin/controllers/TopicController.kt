@@ -1,6 +1,7 @@
 package kafka.rest.admin.controllers
 
 import kafka.rest.admin.domain.models.Topic
+import kafka.rest.admin.domain.models.TopicDetail
 import kafka.rest.admin.domain.services.TopicService
 import kafka.rest.admin.infrastructure.routes.Routes.Companion.RESOURCE_NAME
 import kafka.rest.admin.infrastructure.routes.Routes.Companion.TOPICS
@@ -15,5 +16,5 @@ class TopicController(val topicService: TopicService) {
 
     @GetMapping(value = ["{$RESOURCE_NAME}"], produces = [APPLICATION_JSON_VALUE])
     @ResponseBody
-    fun get(@PathVariable(RESOURCE_NAME) name: String?): Topic = topicService.get(name)
+    fun get(@PathVariable(RESOURCE_NAME) name: String?): TopicDetail = topicService.get(name)
 }
