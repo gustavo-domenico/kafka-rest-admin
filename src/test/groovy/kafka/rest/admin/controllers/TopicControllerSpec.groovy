@@ -1,5 +1,6 @@
 package kafka.rest.admin.controllers
 
+import kafka.rest.admin.domain.models.Topic
 import kafka.rest.admin.domain.services.TopicService
 import spock.lang.Specification
 
@@ -9,7 +10,7 @@ class TopicControllerSpec extends Specification {
 
 	def "list should return all topics"() {
 		given:
-			def expected = ["topic1", "topic2"] as Set
+			def expected = [new Topic("topic1"), new Topic("topic2")]
 		when:
 			def actual = topicController.list()
 		then:
@@ -19,12 +20,11 @@ class TopicControllerSpec extends Specification {
 
 	def "get should return one specific topic"() {
 		given:
-			def expected = ["topic1Info", "topic1Info"]
-			def topic = "topic"
+			def expected = new Topic("topic1")
 		when:
-			def actual = topicController.get(topic)
+			def actual = topicController.get(expected.name)
 		then:
-			1 * topicService.get(topic) >> expected
+			1 * topicService.get(expected.name) >> expected
 			actual == expected
 	}
 }
