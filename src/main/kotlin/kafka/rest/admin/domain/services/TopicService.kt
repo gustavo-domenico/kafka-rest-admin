@@ -17,7 +17,7 @@ class TopicService(val consumerFactory: ConsumerFactory) {
     fun get(name: String?): List<String> {
         consumerFactory.build().use { consumer ->
             val map = consumer.listTopics()
-            return map[name]!!.stream().map { obj: PartitionInfo -> obj.toString() }.collect(Collectors.toList())
+            return map[name]!!.stream().map(PartitionInfo::toString).collect(Collectors.toList())
         }
     }
 }
