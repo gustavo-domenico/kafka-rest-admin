@@ -7,12 +7,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 class TopicControllerIntSpec extends IntegrationTest {
-	def "list should return all topics"() {
+	def "should return all topics"() {
 		when:
 			def mvcResult = mockMvc.perform(get('/topics'))
 		then:
 			mvcResult.andExpect(status().isOk())
 					.andExpect(content().json("[\"testTopicName\"]"))
+	}
 
+	def "return one specific topic information"() {
+		when:
+			def mvcResult = mockMvc.perform(get('/topics/testTopicName'))
+		then:
+			mvcResult.andExpect(status().isOk())
+					.andExpect(content().json("[\"Partition(topic = testTopicName, partition = 0, leader = 1, replicas = [1], isr = [1], offlineReplicas = [])\"]"))
 	}
 }
