@@ -1,14 +1,22 @@
 package kafka.rest.admin.domain.services
 
-import kafka.rest.admin.domain.factories.ConsumerFactory
-import org.apache.kafka.clients.consumer.Consumer
-import org.apache.kafka.common.PartitionInfo
+import kafka.rest.admin.domain.factories.AdminClientFactory
+import org.apache.kafka.clients.admin.AdminClient
+import org.apache.kafka.clients.admin.DescribeTopicsResult
+import org.apache.kafka.clients.admin.ListTopicsResult
+import org.apache.kafka.clients.admin.TopicDescription
 import spock.lang.Specification
 
+import static org.apache.kafka.common.KafkaFuture.completedFuture
+
 class TopicServiceSpec extends Specification {
-	Consumer consumer = Mock()
-	ConsumerFactory consumerFactory = Mock()
-	TopicService topicService = new TopicService(consumerFactory)
+	ListTopicsResult listTopicsResult = Mock()
+	DescribeTopicsResult describeTopicsResult = Mock()
+
+	AdminClient adminClient = Mock()
+	AdminClientFactory adminClientFactory = Mock()
+
+	def topicService = new TopicService(adminClientFactory)
 
 	def "list should get all topics"() {
 		given:
@@ -16,21 +24,23 @@ class TopicServiceSpec extends Specification {
 		when:
 			def actual = topicService.list()
 		then:
-			1 * consumerFactory.build() >> consumer
-			1 * consumer.listTopics() >> [topic1: null, topic2: null]
+			1 * adminClientFactory.build() >> adminClient
+			1 * adminClient.listTopics() >> listTopicsResult
+			1 * listTopicsResult.names() >> completedFuture(expected)
 
 			actual == expected
 	}
 
 	def "get should return one specific topic "() {
 		given:
-			def expected = new PartitionInfo("topic1", 0, null, null, null)
+			def expected = new TopicDescription("topic1", false, [])
 		when:
 			def actual = topicService.get("topic1")
 		then:
-			1 * consumerFactory.build() >> consumer
-			1 * consumer.listTopics() >> [topic1: [expected], topic2: null]
+			1 * adminClientFactory.build() >> adminClient
+			1 * adminClient.describeTopics(["topic1"]) >> describeTopicsResult
+			1 * describeTopicsResult.values() >> [ topic1: completedFuture(expected)]
 
-			actual == [expected.toString()]
+			actual == [expected.name()]
 	}
 }

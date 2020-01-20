@@ -20,6 +20,6 @@ class TopicControllerIntSpec extends IntegrationTest {
 			def mvcResult = mockMvc.perform(get('/topics/testTopicName'))
 		then:
 			mvcResult.andExpect(status().isOk())
-					.andExpect(content().json("[\"Partition(topic = testTopicName, partition = 0, leader = 1, replicas = [1], isr = [1], offlineReplicas = [])\"]"))
+					.andExpect(content().json("[\"testTopicName\"]"))
 	}
 }

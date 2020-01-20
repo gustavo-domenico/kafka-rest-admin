@@ -28,12 +28,10 @@ abstract class IntegrationTest extends Specification {
 			def kafkaContainer = new KafkaContainer()
 			kafkaContainer.start()
 
-			loadData(kafkaContainer);
-
-			TestPropertyValues.of(
-					"spring.kafka.consumer.bootstrap-servers:" + kafkaContainer.getBootstrapServers(),
-					"spring.kafka.producer.bootstrap-servers" + kafkaContainer.getBootstrapServers())
+			TestPropertyValues.of("spring.kafka.bootstrap-servers:" + kafkaContainer.getBootstrapServers())
 					.applyTo(context)
+
+			loadData(kafkaContainer)
 		}
 	}
 }
