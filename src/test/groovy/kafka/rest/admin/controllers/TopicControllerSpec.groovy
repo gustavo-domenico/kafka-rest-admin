@@ -1,30 +1,28 @@
 package kafka.rest.admin.controllers
 
-import kafka.rest.admin.domain.models.Topic
 import kafka.rest.admin.domain.services.TopicService
 import spock.lang.Specification
+
+import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.oneTopic
+import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.topics
 
 class TopicControllerSpec extends Specification {
 	TopicService topicService = Mock()
 	TopicController topicController = new TopicController(topicService)
 
 	def "list should return all topics"() {
-		given:
-			def expected = [new Topic("topic1"), new Topic("topic2")]
 		when:
 			def actual = topicController.list()
 		then:
-			1 * topicService.list() >> expected
-			actual == expected
+			1 * topicService.list() >> topics()
+			actual == topics()
 	}
 
 	def "get should return one specific topic"() {
-		given:
-			def expected = new Topic("topic1")
 		when:
-			def actual = topicController.get(expected.name)
+			def actual = topicController.get(oneTopic().name)
 		then:
-			1 * topicService.get(expected.name) >> expected
-			actual == expected
+			1 * topicService.get(oneTopic().name) >> oneTopic()
+			actual == oneTopic()
 	}
 }

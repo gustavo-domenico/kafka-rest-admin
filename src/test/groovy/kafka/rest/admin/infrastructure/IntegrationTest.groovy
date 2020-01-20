@@ -1,4 +1,4 @@
-package kafka.rest.admin.configuration
+package kafka.rest.admin.infrastructure
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.beans.factory.annotation.Autowired
@@ -13,7 +13,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.testcontainers.containers.KafkaContainer
 import spock.lang.Specification
 
-import static kafka.rest.admin.configuration.KafkaDataSetup.loadData
+import static kafka.rest.admin.infrastructure.KafkaDataSetup.loadData
 
 @AutoConfigureMockMvc
 @SpringBootTest
