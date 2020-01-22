@@ -1,6 +1,5 @@
 package kafka.rest.admin.infrastructure
 
-
 import org.testcontainers.containers.KafkaContainer
 
 import static java.util.Map.of
