@@ -16,7 +16,6 @@ import static org.apache.kafka.common.KafkaFuture.completedFuture
 class TopicServiceSpec extends Specification {
 	ListTopicsResult listTopicsResult = Mock()
 	DescribeTopicsResult describeTopicsResult = Mock()
-
 	AdminClient adminClient = Mock()
 	AdminClientFactory adminClientFactory = Mock()
 
