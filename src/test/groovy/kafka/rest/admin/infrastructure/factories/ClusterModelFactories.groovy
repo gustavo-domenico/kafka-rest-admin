@@ -11,7 +11,7 @@ class ClusterModelFactories {
 	static def cluster(port = 0) { new ClusterDetail(controller(port), nodes(port)) }
 
 	static def controllerNode() {
-		new Node(1, "host", 0)
+		new Node(1, "localhost", 0)
 	}
 
 	static def controller(port = 0) {
@@ -19,7 +19,7 @@ class ClusterModelFactories {
 	}
 
 	static def nodesNode() {
-		[new Node(1, "localhost", 3)]
+		[new Node(1, "localhost", 0)]
 	}
 
 	static def nodes(port = 0) {
