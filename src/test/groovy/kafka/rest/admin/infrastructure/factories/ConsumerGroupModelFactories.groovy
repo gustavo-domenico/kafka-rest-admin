@@ -11,7 +11,7 @@ class ConsumerGroupModelFactories {
 
 	static def anotherConsumerGroup() { new ConsumerGroup("oneConsumerGroup") }
 
-	static def consumerGroups() { [oneConsumerGroup(), anotherConsumerGroup()] }
+	static def consumerGroups() { [oneConsumerGroup()] }
 
 	static def oneConsumerGroupResource() { new ConsumerGroupResource(oneConsumerGroup())}
 
