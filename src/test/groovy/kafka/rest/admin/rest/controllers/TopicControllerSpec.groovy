@@ -1,4 +1,4 @@
-package kafka.rest.admin.controllers
+package kafka.rest.admin.rest.controllers
 
 import kafka.rest.admin.domain.services.TopicService
 import kafka.rest.admin.rest.controllers.TopicController
