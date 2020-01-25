@@ -1,11 +1,11 @@
 package kafka.rest.admin.rest.controllers
 
 import kafka.rest.admin.infrastructure.IntegrationTest
-import kafka.rest.admin.infrastructure.routes.Routes
 
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.onTopicDetailPayload
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.oneTopic
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.topicsPayload
+import static kafka.rest.admin.infrastructure.routes.Routes.RESOURCE_NAME
 import static kafka.rest.admin.infrastructure.routes.Routes.TOPICS
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
@@ -22,7 +22,7 @@ class TopicControllerIntSpec extends IntegrationTest {
 
 	def "return one specific topic information"() {
 		when:
-			def mvcResult = mockMvc.perform(get("${TOPICS}/{${Routes.RESOURCE_NAME}}", oneTopic().name))
+			def mvcResult = mockMvc.perform(get("${TOPICS}/{${RESOURCE_NAME}}", oneTopic().name))
 		then:
 			mvcResult.andExpect(status().isOk())
 					.andExpect(content().json(onTopicDetailPayload(port())))

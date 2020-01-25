@@ -7,7 +7,6 @@ import org.springframework.hateoas.RepresentationModel
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn
 
-
 class TopicResource(topic: Topic) : RepresentationModel<TopicResource>() {
     @JsonUnwrapped
     val content: Topic = topic
