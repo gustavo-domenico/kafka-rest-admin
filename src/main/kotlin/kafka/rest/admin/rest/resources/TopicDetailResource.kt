@@ -13,5 +13,6 @@ open class TopicDetailResource(topicDetail: TopicDetail) : RepresentationModel<T
 
     init {
         add(linkTo(methodOn(TopicController::class.java).get(topicDetail.topic.name)).withSelfRel())
+        add(linkTo(methodOn(TopicController::class.java).list()).withRel("topics"))
     }
 }
