@@ -6,5 +6,6 @@ class Routes {
         const val RESOURCE_ID = "id"
         const val TOPICS = "/topics"
         const val CONSUMER_GROUPS = "/consumer-groups"
+        const val OFFSETS = "/offsets"
     }
 }

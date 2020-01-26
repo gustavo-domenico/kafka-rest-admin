@@ -2,11 +2,13 @@ package kafka.rest.admin.rest.controllers
 
 import kafka.rest.admin.infrastructure.IntegrationTest
 
+import static kafka.rest.admin.infrastructure.factories.ConsumerGroupModelFactories.consumerGroupOffsetsPayload
 import static kafka.rest.admin.infrastructure.factories.ConsumerGroupModelFactories.consumerGroupsPayload
 import static kafka.rest.admin.infrastructure.factories.ConsumerGroupModelFactories.oneConsumerGroup
 import static kafka.rest.admin.infrastructure.factories.ConsumerGroupModelFactories.oneConsumerGroupDetailPayload
 import static kafka.rest.admin.infrastructure.routes.Routes.CONSUMER_GROUPS
 import static kafka.rest.admin.infrastructure.routes.Routes.RESOURCE_ID
+import static kafka.rest.admin.infrastructure.routes.Routes.OFFSETS
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
@@ -27,4 +29,13 @@ class ConsumerGroupControllerIntSpec extends IntegrationTest {
 			mvcResult.andExpect(status().isOk())
 					.andExpect(content().json(oneConsumerGroupDetailPayload()))
 	}
+
+	def "return consumer group offsets"() {
+		when:
+			def mvcResult = mockMvc.perform(get("${CONSUMER_GROUPS}/{${RESOURCE_ID}}/${OFFSETS}", oneConsumerGroup().id))
+		then:
+			mvcResult.andExpect(status().isOk())
+					.andExpect(content().json(consumerGroupOffsetsPayload()))
+	}
+
 }

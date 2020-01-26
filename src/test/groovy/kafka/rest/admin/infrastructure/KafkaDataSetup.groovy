@@ -41,8 +41,9 @@ class KafkaDataSetup {
 				new StringSerializer()
 		);
 
-		consumer.subscribe([oneTopic().name, anotherTopic().name])
-		producer.send(new ProducerRecord<>(oneTopic().name, "testcontainers", "rulezzz")).get();
+		consumer.subscribe([oneTopic().name])
+		producer.send(new ProducerRecord<>(oneTopic().name, 0,"testcontainers", "rulezzz")).get();
 		consumer.poll(5000)
+		consumer.commitSync()
 	}
 }

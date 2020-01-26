@@ -4,6 +4,8 @@ import kafka.rest.admin.domain.factories.AdminClientFactory
 import kafka.rest.admin.domain.models.ConsumerGroup
 import kafka.rest.admin.domain.models.ConsumerGroupDetail
 import kafka.rest.admin.domain.models.ConsumerGroupDetail.Companion.consumerGroupDetailOf
+import kafka.rest.admin.domain.models.ConsumerGroupOffset
+import kafka.rest.admin.domain.models.ConsumerGroupOffset.Companion.consumerGroupOffsetOf
 import org.springframework.stereotype.Service
 
 @Service
@@ -16,4 +18,9 @@ class ConsumerGroupService(val adminClientFactory: AdminClientFactory) {
             adminClientFactory.build()
                     .describeConsumerGroups(mutableListOf(id)).describedGroups()[id]!!.get()
                     .let(::consumerGroupDetailOf)
+
+    fun offsets(id: String?): List<ConsumerGroupOffset> =
+            adminClientFactory.build().listConsumerGroupOffsets(id).partitionsToOffsetAndMetadata()
+                    .get()
+                    .map(::consumerGroupOffsetOf)
 }
