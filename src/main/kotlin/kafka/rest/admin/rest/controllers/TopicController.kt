@@ -1,20 +1,21 @@
 package kafka.rest.admin.rest.controllers
 
 import kafka.rest.admin.domain.services.TopicService
+import kafka.rest.admin.infrastructure.annotations.RestGetMapping
 import kafka.rest.admin.infrastructure.routes.Routes.Companion.RESOURCE_NAME
 import kafka.rest.admin.infrastructure.routes.Routes.Companion.TOPICS
 import kafka.rest.admin.rest.resources.TopicDetailResource
 import kafka.rest.admin.rest.resources.TopicResource
-import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping(TOPICS)
 class TopicController(val topicService: TopicService) {
-    @GetMapping
+    @RestGetMapping
     fun list(): List<TopicResource> = topicService.list().map(::TopicResource)
 
-    @GetMapping(value = ["{$RESOURCE_NAME}"], produces = [APPLICATION_JSON_VALUE])
-    @ResponseBody
+    @RestGetMapping(value = ["{$RESOURCE_NAME}"])
     fun get(@PathVariable(RESOURCE_NAME) name: String?): TopicDetailResource = TopicDetailResource(topicService.get(name))
 }
