@@ -13,6 +13,7 @@ open class ConsumerGroupDetailResource(consumerGroupDetail: ConsumerGroupDetail)
 
     init {
         add(linkTo(methodOn(ConsumerGroupController::class.java).get(consumerGroupDetail.consumerGroup.id)).withSelfRel())
+        add(linkTo(methodOn(ConsumerGroupController::class.java).offsets(consumerGroupDetail.consumerGroup.id)).withRel("offsets"))
         add(linkTo(methodOn(ConsumerGroupController::class.java).list()).withRel("consumer-groups"))
     }
 }

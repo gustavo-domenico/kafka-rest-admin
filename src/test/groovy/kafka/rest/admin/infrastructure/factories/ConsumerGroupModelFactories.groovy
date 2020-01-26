@@ -29,7 +29,7 @@ class ConsumerGroupModelFactories {
 		new ConsumerGroupDescription(oneConsumerGroup().id, true, [], "", ConsumerGroupState.STABLE, new Node(0, "", 0))
 	}
 
-	static def consumerGroupOffsetsAndMetadata() { new OffsetAndMetadata(123, "No metadata") }
+	static def consumerGroupOffsetsAndMetadata() { new OffsetAndMetadata(1, "") }
 
 	static def consumerGroupOffset() {
 		new ConsumerGroupOffset(oneTopicDetail().topic.name, oneTopicDetail().partitions.first().partition, 1, "")
