@@ -9,18 +9,18 @@ import kafka.rest.admin.domain.models.ConsumerGroupOffset.Companion.consumerGrou
 import org.springframework.stereotype.Service
 
 @Service
-class ConsumerGroupService(val adminClientFactory: AdminClientFactory) {
+class ConsumerGroupService(adminClientFactory: AdminClientFactory) : KafkaService(adminClientFactory) {
     fun list(): List<ConsumerGroup> =
-            adminClientFactory.build().listConsumerGroups().all()
+            adminClient().listConsumerGroups().all()
                     .get().map { l -> ConsumerGroup(l.groupId()) }
 
     fun get(id: String?): ConsumerGroupDetail =
-            adminClientFactory.build()
+            adminClient()
                     .describeConsumerGroups(mutableListOf(id)).describedGroups()[id]!!.get()
                     .let(::consumerGroupDetailOf)
 
     fun offsets(id: String?): List<ConsumerGroupOffset> =
-            adminClientFactory.build().listConsumerGroupOffsets(id).partitionsToOffsetAndMetadata()
+            adminClient().listConsumerGroupOffsets(id).partitionsToOffsetAndMetadata()
                     .get()
                     .map(::consumerGroupOffsetOf)
 }

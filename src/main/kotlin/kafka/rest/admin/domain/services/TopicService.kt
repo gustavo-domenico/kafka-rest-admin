@@ -7,13 +7,12 @@ import kafka.rest.admin.domain.models.TopicDetail.Companion.topicDetailOf
 import org.springframework.stereotype.Service
 
 @Service
-class TopicService(val adminClientFactory: AdminClientFactory) {
+class TopicService(adminClientFactory: AdminClientFactory) : KafkaService(adminClientFactory) {
     fun list(): List<Topic> =
-            adminClientFactory.build().listTopics().listings()
+            adminClient().listTopics().listings()
                     .get().map { l -> Topic(l.name()) }
 
     fun get(name: String?): TopicDetail =
-            adminClientFactory.build()
-                    .describeTopics(mutableListOf(name)).values()[name]!!.get()
+            adminClient().describeTopics(mutableListOf(name)).values()[name]!!.get()
                     .let(::topicDetailOf)
 }

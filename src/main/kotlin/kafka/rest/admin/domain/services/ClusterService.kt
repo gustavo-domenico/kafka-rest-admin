@@ -6,8 +6,7 @@ import kafka.rest.admin.domain.models.ClusterDetail.Companion.clusterDetailOf
 import org.springframework.stereotype.Service
 
 @Service
-class ClusterService(val adminClientFactory: AdminClientFactory) {
+class ClusterService(adminClientFactory: AdminClientFactory) : KafkaService(adminClientFactory) {
     fun get(): ClusterDetail =
-            adminClientFactory.build().describeCluster()
-                    .let(::clusterDetailOf)
+            adminClient().describeCluster().let(::clusterDetailOf)
 }
