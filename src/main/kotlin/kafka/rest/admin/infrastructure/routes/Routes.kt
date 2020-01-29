@@ -7,5 +7,6 @@ class Routes {
         const val TOPICS = "/topics"
         const val CONSUMER_GROUPS = "/consumer-groups"
         const val OFFSETS = "/offsets"
+        const val MESSAGES = "/messages"
     }
 }
