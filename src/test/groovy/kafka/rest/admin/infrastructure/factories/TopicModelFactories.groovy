@@ -7,6 +7,7 @@ import kafka.rest.admin.domain.models.Topic
 import kafka.rest.admin.domain.models.TopicDetail
 import kafka.rest.admin.domain.models.TopicPartition
 import kafka.rest.admin.rest.resources.TopicDetailResource
+import kafka.rest.admin.rest.resources.TopicListResource
 import kafka.rest.admin.rest.resources.TopicResource
 import org.apache.kafka.clients.admin.TopicDescription
 import org.apache.kafka.clients.admin.TopicListing
@@ -39,6 +40,8 @@ class TopicModelFactories {
 
 	static def topicsResources() { [oneTopicResource(), anotherTopicResource()] }
 
+	static def topicListResource() { new TopicListResource(topicsResources()) }
+
 	static def onTopicDetailPayload(port) {
 		def mapper = new ObjectMapper()
 		mapper.disable(MapperFeature.AUTO_DETECT_IS_GETTERS)
@@ -46,9 +49,34 @@ class TopicModelFactories {
 	}
 
 	static def topicsPayload() {
-		def mapper = new ObjectMapper()
-		mapper.disable(MapperFeature.AUTO_DETECT_IS_GETTERS)
-		mapper.writeValueAsString(topics())
+		"""{
+			"_embedded": {
+			"topicList": [
+					{
+						"name": "oneRandomTopicName",
+						"_links": {
+						"self": {
+							"href": "http://localhost/topics/oneRandomTopicName"
+						}
+					}
+					},
+					{
+						"name": "anotherRandomTopicName",
+						"_links": {
+						"self": {
+							"href": "http://localhost/topics/anotherRandomTopicName"
+						}
+					}
+					}
+			]
+		},
+			"_links": {
+			"self": {
+				"href": "http://localhost/topics"
+			}
+		}
+		}
+		"""
 	}
 
 	static def topicListings() {

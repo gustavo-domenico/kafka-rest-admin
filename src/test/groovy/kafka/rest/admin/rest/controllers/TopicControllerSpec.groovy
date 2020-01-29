@@ -7,8 +7,8 @@ import spock.lang.Specification
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.oneTopic
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.oneTopicDetail
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.oneTopicDetailResource
+import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.topicListResource
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.topics
-import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.topicsResources
 
 class TopicControllerSpec extends Specification {
 	TopicService topicService = Mock()
@@ -19,7 +19,7 @@ class TopicControllerSpec extends Specification {
 			def actual = topicController.list()
 		then:
 			1 * topicService.list() >> topics()
-			actual == topicsResources()
+			actual == topicListResource()
 	}
 
 	def "get should return one specific topic"() {

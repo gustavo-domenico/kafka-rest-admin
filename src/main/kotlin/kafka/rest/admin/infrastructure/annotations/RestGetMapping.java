@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@RequestMapping(method = RequestMethod.GET, produces = "application/json")
+@RequestMapping(method = RequestMethod.GET, produces = "application/hal+json")
 public @interface RestGetMapping {
 	@AliasFor(annotation = RequestMapping.class, attribute = "produces")
 	String[] produces() default {};
