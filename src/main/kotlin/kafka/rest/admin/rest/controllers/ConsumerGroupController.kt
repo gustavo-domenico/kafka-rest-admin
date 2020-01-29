@@ -19,8 +19,8 @@ class ConsumerGroupController(val consumerGroupService: ConsumerGroupService) {
     fun list(): List<ConsumerGroupResource> = consumerGroupService.list().map(::ConsumerGroupResource)
 
     @RestGetMapping(value = ["{$RESOURCE_ID}"])
-    fun get(@PathVariable(RESOURCE_ID) id: String?): ConsumerGroupDetailResource = ConsumerGroupDetailResource(consumerGroupService.get(id))
+    fun get(@PathVariable(RESOURCE_ID) id: String): ConsumerGroupDetailResource = ConsumerGroupDetailResource(consumerGroupService.get(id))
 
     @RestGetMapping(value = ["{$RESOURCE_ID}$OFFSETS"])
-    fun offsets(@PathVariable(RESOURCE_ID) id: String?): List<ConsumerGroupOffsetResource> = consumerGroupService.offsets(id).map(::ConsumerGroupOffsetResource)
+    fun offsets(@PathVariable(RESOURCE_ID) id: String): List<ConsumerGroupOffsetResource> = consumerGroupService.offsets(id).map(::ConsumerGroupOffsetResource)
 }

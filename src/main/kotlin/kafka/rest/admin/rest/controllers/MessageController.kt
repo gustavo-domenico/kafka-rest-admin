@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping(MESSAGES)
 class MessageController(val messageService: MessageService) {
     @RestGetMapping(value = ["/topic/{topic}/partition/{partition}/from/{offset}"])
-    fun from(@PathVariable("topic") topic: String?,
-             @PathVariable("partition") partition: Int?,
-             @PathVariable("offset") offset: Long?
+    fun from(@PathVariable("topic") topic: String,
+             @PathVariable("partition") partition: Int,
+             @PathVariable("offset") offset: Long
     ): List<MessageResource> = messageService.from(topic, partition, offset).map(::MessageResource)
 }

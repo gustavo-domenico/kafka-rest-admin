@@ -10,13 +10,13 @@ import java.util.*
 
 @Service
 class MessageService(adminClientFactory: AdminClientFactory) : KafkaService(adminClientFactory) {
-    fun from(topic: String?, partition: Int?, offset: Long?): List<Message> {
+    fun from(topic: String, partition: Int, offset: Long): List<Message> {
         val myConsumer = consumer()
-        val tp = TopicPartition(topic, partition!!)
+        val tp = TopicPartition(topic, partition)
         val rawRecords = ArrayList<ConsumerRecord<String, String>>()
 
         myConsumer.assign(listOf(tp))
-        myConsumer.seek(tp, offset!!)
+        myConsumer.seek(tp, offset)
 
         val latestOffset = myConsumer.endOffsets(listOf(tp)).get(tp)!! - 1
 

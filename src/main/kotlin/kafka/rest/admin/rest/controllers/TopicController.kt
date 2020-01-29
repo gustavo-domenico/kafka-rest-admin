@@ -17,5 +17,5 @@ class TopicController(val topicService: TopicService) {
     fun list(): List<TopicResource> = topicService.list().map(::TopicResource)
 
     @RestGetMapping(value = ["{$RESOURCE_NAME}"])
-    fun get(@PathVariable(RESOURCE_NAME) name: String?): TopicDetailResource = TopicDetailResource(topicService.get(name))
+    fun get(@PathVariable(RESOURCE_NAME) name: String): TopicDetailResource = TopicDetailResource(topicService.get(name))
 }

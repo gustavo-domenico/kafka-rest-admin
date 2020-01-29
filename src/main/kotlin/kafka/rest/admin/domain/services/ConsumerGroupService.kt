@@ -14,12 +14,12 @@ class ConsumerGroupService(adminClientFactory: AdminClientFactory) : KafkaServic
             adminClient().listConsumerGroups().all()
                     .get().map { l -> ConsumerGroup(l.groupId()) }
 
-    fun get(id: String?): ConsumerGroupDetail =
+    fun get(id: String): ConsumerGroupDetail =
             adminClient()
                     .describeConsumerGroups(mutableListOf(id)).describedGroups()[id]!!.get()
                     .let(::consumerGroupDetailOf)
 
-    fun offsets(id: String?): List<ConsumerGroupOffset> =
+    fun offsets(id: String): List<ConsumerGroupOffset> =
             adminClient().listConsumerGroupOffsets(id).partitionsToOffsetAndMetadata()
                     .get()
                     .map(::consumerGroupOffsetOf)
