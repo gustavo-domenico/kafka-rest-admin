@@ -10,6 +10,8 @@ import org.apache.kafka.common.serialization.StringSerializer
 import org.testcontainers.containers.KafkaContainer
 import org.testcontainers.shaded.com.google.common.collect.ImmutableMap
 
+import java.time.Duration
+
 import static java.util.Map.of
 import static kafka.rest.admin.infrastructure.factories.ConsumerGroupModelFactories.oneConsumerGroup
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.anotherTopic
@@ -30,7 +32,7 @@ class KafkaDataSetup {
 				),
 				new StringDeserializer(),
 				new StringDeserializer()
-		);
+		)
 
 		KafkaProducer<String, String> producer = new KafkaProducer<>(
 				ImmutableMap.of(
@@ -39,11 +41,11 @@ class KafkaDataSetup {
 				),
 				new StringSerializer(),
 				new StringSerializer()
-		);
+		)
 
 		consumer.subscribe([oneTopic().name])
-		producer.send(new ProducerRecord<>(oneTopic().name, 0,"testcontainers", "rulezzz")).get();
-		consumer.poll(5000)
+		producer.send(new ProducerRecord<>(oneTopic().name, 0,"testcontainers", "content")).get()
+		consumer.poll(Duration.ofMillis(5000))
 		consumer.commitSync()
 	}
 }
