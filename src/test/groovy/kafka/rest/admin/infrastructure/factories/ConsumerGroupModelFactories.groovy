@@ -6,6 +6,7 @@ import kafka.rest.admin.domain.models.ConsumerGroup
 import kafka.rest.admin.domain.models.ConsumerGroupDetail
 import kafka.rest.admin.domain.models.ConsumerGroupOffset
 import kafka.rest.admin.rest.resources.ConsumerGroupDetailResource
+import kafka.rest.admin.rest.resources.ConsumerGroupListResource
 import kafka.rest.admin.rest.resources.ConsumerGroupOffsetResource
 import kafka.rest.admin.rest.resources.ConsumerGroupResource
 import org.apache.kafka.clients.admin.ConsumerGroupDescription
@@ -39,6 +40,8 @@ class ConsumerGroupModelFactories {
 		[consumerGroupOffset()]
 	}
 
+	static def consumerGroupListResource() { new ConsumerGroupListResource(consumerGroupResources()) }
+
 	static def consumerGroupOffsetsResource() {
 		[new ConsumerGroupOffsetResource(consumerGroupOffset())]
 	}
@@ -55,13 +58,6 @@ class ConsumerGroupModelFactories {
 		def mapper = new ObjectMapper()
 		mapper.disable(MapperFeature.AUTO_DETECT_IS_GETTERS)
 		mapper.writeValueAsString(oneConsumerGroupDetail())
-	}
-
-
-	static def consumerGroupsPayload() {
-		def mapper = new ObjectMapper()
-		mapper.disable(MapperFeature.AUTO_DETECT_IS_GETTERS)
-		mapper.writeValueAsString(consumerGroups())
 	}
 
 	static def consumerGroupOffsetsPayload() {

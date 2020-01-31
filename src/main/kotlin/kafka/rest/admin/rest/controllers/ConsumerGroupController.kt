@@ -6,6 +6,7 @@ import kafka.rest.admin.infrastructure.routes.Routes.Companion.CONSUMER_GROUPS
 import kafka.rest.admin.infrastructure.routes.Routes.Companion.OFFSETS
 import kafka.rest.admin.infrastructure.routes.Routes.Companion.RESOURCE_ID
 import kafka.rest.admin.rest.resources.ConsumerGroupDetailResource
+import kafka.rest.admin.rest.resources.ConsumerGroupListResource
 import kafka.rest.admin.rest.resources.ConsumerGroupOffsetResource
 import kafka.rest.admin.rest.resources.ConsumerGroupResource
 import org.springframework.web.bind.annotation.PathVariable
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping(CONSUMER_GROUPS)
 class ConsumerGroupController(val consumerGroupService: ConsumerGroupService) {
     @RestGetMapping
-    fun list(): List<ConsumerGroupResource> = consumerGroupService.list().map(::ConsumerGroupResource)
+    fun list(): ConsumerGroupListResource = ConsumerGroupListResource(consumerGroupService.list().map(::ConsumerGroupResource))
 
     @RestGetMapping(value = ["{$RESOURCE_ID}"])
     fun get(@PathVariable(RESOURCE_ID) id: String): ConsumerGroupDetailResource = ConsumerGroupDetailResource(consumerGroupService.get(id))

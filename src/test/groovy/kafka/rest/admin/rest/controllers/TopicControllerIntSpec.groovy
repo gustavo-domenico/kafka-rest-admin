@@ -4,7 +4,7 @@ import kafka.rest.admin.infrastructure.IntegrationTest
 
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.onTopicDetailPayload
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.oneTopic
-import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.topicsPayload
+import static kafka.rest.admin.infrastructure.payloads.Payloads.topicsPayload
 import static kafka.rest.admin.infrastructure.routes.Routes.RESOURCE_NAME
 import static kafka.rest.admin.infrastructure.routes.Routes.TOPICS
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get

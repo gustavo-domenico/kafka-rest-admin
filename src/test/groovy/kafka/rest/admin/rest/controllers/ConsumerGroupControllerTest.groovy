@@ -3,9 +3,9 @@ package kafka.rest.admin.rest.controllers
 import kafka.rest.admin.domain.services.ConsumerGroupService
 import spock.lang.Specification
 
+import static kafka.rest.admin.infrastructure.factories.ConsumerGroupModelFactories.consumerGroupListResource
 import static kafka.rest.admin.infrastructure.factories.ConsumerGroupModelFactories.consumerGroupOffsets
 import static kafka.rest.admin.infrastructure.factories.ConsumerGroupModelFactories.consumerGroupOffsetsResource
-import static kafka.rest.admin.infrastructure.factories.ConsumerGroupModelFactories.consumerGroupResources
 import static kafka.rest.admin.infrastructure.factories.ConsumerGroupModelFactories.consumerGroups
 import static kafka.rest.admin.infrastructure.factories.ConsumerGroupModelFactories.oneConsumerGroup
 import static kafka.rest.admin.infrastructure.factories.ConsumerGroupModelFactories.oneConsumerGroupDetail
@@ -20,7 +20,7 @@ class ConsumerGroupControllerTest extends Specification {
 			def actual = consumerGroupController.list()
 		then:
 			1 * consumerGroupService.list() >> consumerGroups()
-			actual == consumerGroupResources()
+			actual == consumerGroupListResource()
 	}
 
 	def "get should return one specific consumer group"() {

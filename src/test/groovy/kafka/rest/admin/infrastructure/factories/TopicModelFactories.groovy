@@ -48,37 +48,6 @@ class TopicModelFactories {
 		mapper.writeValueAsString(oneTopicDetail(port))
 	}
 
-	static def topicsPayload() {
-		"""{
-			"_embedded": {
-			"topicList": [
-					{
-						"name": "oneRandomTopicName",
-						"_links": {
-						"self": {
-							"href": "http://localhost/topics/oneRandomTopicName"
-						}
-					}
-					},
-					{
-						"name": "anotherRandomTopicName",
-						"_links": {
-						"self": {
-							"href": "http://localhost/topics/anotherRandomTopicName"
-						}
-					}
-					}
-			]
-		},
-			"_links": {
-			"self": {
-				"href": "http://localhost/topics"
-			}
-		}
-		}
-		"""
-	}
-
 	static def topicListings() {
 		[new TopicListing(oneTopic().name, false), new TopicListing(anotherTopic().name, false)]
 	}
