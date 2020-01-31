@@ -3,6 +3,7 @@ package kafka.rest.admin.rest.controllers
 import kafka.rest.admin.domain.services.MessageService
 import kafka.rest.admin.infrastructure.annotations.RestGetMapping
 import kafka.rest.admin.infrastructure.routes.Routes.Companion.MESSAGES
+import kafka.rest.admin.rest.resources.MessageListResource
 import kafka.rest.admin.rest.resources.MessageResource
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -15,5 +16,5 @@ class MessageController(val messageService: MessageService) {
     fun from(@PathVariable("topic") topic: String,
              @PathVariable("partition") partition: Int,
              @PathVariable("offset") offset: Long
-    ): List<MessageResource> = messageService.from(topic, partition, offset).map(::MessageResource)
+    ): MessageListResource = MessageListResource(messageService.from(topic, partition, offset).map(::MessageResource))
 }
