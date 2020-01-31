@@ -5,6 +5,33 @@ import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.anot
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.oneTopic
 
 class Payloads {
+	static def consumerGroupOffsetsPayload() {
+		"""
+			{
+			  "_embedded": {
+			    "consumerGroupOffsetList": [
+			      {
+			        "topicName": "${oneTopic().name}",
+			        "partition": 0,
+			        "offset": 1,
+			        "metadata": "",
+			        "_links": {
+			          "topic": {
+			            "href": "http://localhost/topics/${oneTopic().name}"
+			          }
+			        }
+			      }
+			    ]
+			  },
+			  "_links": {
+			    "self": {
+			      "href": "http://localhost/consumer-groups/${oneConsumerGroup().id}/offsets"
+			    }
+			  }
+			}
+		"""
+	}
+
 	static def consumerGroupsPayload() {
 		"""
 			{

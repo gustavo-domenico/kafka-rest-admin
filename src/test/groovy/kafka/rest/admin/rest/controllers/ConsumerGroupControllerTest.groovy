@@ -4,8 +4,8 @@ import kafka.rest.admin.domain.services.ConsumerGroupService
 import spock.lang.Specification
 
 import static kafka.rest.admin.infrastructure.factories.ConsumerGroupModelFactories.consumerGroupListResource
+import static kafka.rest.admin.infrastructure.factories.ConsumerGroupModelFactories.consumerGroupOffsetListResource
 import static kafka.rest.admin.infrastructure.factories.ConsumerGroupModelFactories.consumerGroupOffsets
-import static kafka.rest.admin.infrastructure.factories.ConsumerGroupModelFactories.consumerGroupOffsetsResource
 import static kafka.rest.admin.infrastructure.factories.ConsumerGroupModelFactories.consumerGroups
 import static kafka.rest.admin.infrastructure.factories.ConsumerGroupModelFactories.oneConsumerGroup
 import static kafka.rest.admin.infrastructure.factories.ConsumerGroupModelFactories.oneConsumerGroupDetail
@@ -36,6 +36,6 @@ class ConsumerGroupControllerTest extends Specification {
 			def actual = consumerGroupController.offsets(oneConsumerGroup().id)
 		then:
 			1 * consumerGroupService.offsets(oneConsumerGroup().id) >> consumerGroupOffsets()
-			actual == consumerGroupOffsetsResource()
+			actual == consumerGroupOffsetListResource()
 	}
 }

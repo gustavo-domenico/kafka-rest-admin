@@ -2,9 +2,9 @@ package kafka.rest.admin.rest.controllers
 
 import kafka.rest.admin.infrastructure.IntegrationTest
 
-import static kafka.rest.admin.infrastructure.factories.ConsumerGroupModelFactories.consumerGroupOffsetsPayload
 import static kafka.rest.admin.infrastructure.factories.ConsumerGroupModelFactories.oneConsumerGroup
 import static kafka.rest.admin.infrastructure.factories.ConsumerGroupModelFactories.oneConsumerGroupDetailPayload
+import static kafka.rest.admin.infrastructure.payloads.Payloads.consumerGroupOffsetsPayload
 import static kafka.rest.admin.infrastructure.payloads.Payloads.consumerGroupsPayload
 import static kafka.rest.admin.infrastructure.routes.Routes.CONSUMER_GROUPS
 import static kafka.rest.admin.infrastructure.routes.Routes.OFFSETS

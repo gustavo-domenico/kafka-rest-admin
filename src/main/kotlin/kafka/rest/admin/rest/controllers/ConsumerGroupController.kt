@@ -5,10 +5,7 @@ import kafka.rest.admin.infrastructure.annotations.RestGetMapping
 import kafka.rest.admin.infrastructure.routes.Routes.Companion.CONSUMER_GROUPS
 import kafka.rest.admin.infrastructure.routes.Routes.Companion.OFFSETS
 import kafka.rest.admin.infrastructure.routes.Routes.Companion.RESOURCE_ID
-import kafka.rest.admin.rest.resources.ConsumerGroupDetailResource
-import kafka.rest.admin.rest.resources.ConsumerGroupListResource
-import kafka.rest.admin.rest.resources.ConsumerGroupOffsetResource
-import kafka.rest.admin.rest.resources.ConsumerGroupResource
+import kafka.rest.admin.rest.resources.*
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -23,5 +20,6 @@ class ConsumerGroupController(val consumerGroupService: ConsumerGroupService) {
     fun get(@PathVariable(RESOURCE_ID) id: String): ConsumerGroupDetailResource = ConsumerGroupDetailResource(consumerGroupService.get(id))
 
     @RestGetMapping(value = ["{$RESOURCE_ID}$OFFSETS"])
-    fun offsets(@PathVariable(RESOURCE_ID) id: String): List<ConsumerGroupOffsetResource> = consumerGroupService.offsets(id).map(::ConsumerGroupOffsetResource)
+    fun offsets(@PathVariable(RESOURCE_ID) id: String): ConsumerGroupOffsetListResource =
+            ConsumerGroupOffsetListResource(id, consumerGroupService.offsets(id).map(::ConsumerGroupOffsetResource))
 }
