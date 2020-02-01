@@ -11,16 +11,17 @@ import org.springframework.stereotype.Service
 @Service
 class ConsumerGroupService(adminClientFactory: AdminClientFactory) : KafkaService(adminClientFactory) {
     fun list(): List<ConsumerGroup> =
-            adminClient().listConsumerGroups().all()
+            client().listConsumerGroups().all()
                     .get().map { l -> ConsumerGroup(l.groupId()) }
 
     fun get(id: String): ConsumerGroupDetail =
-            adminClient()
+            client()
                     .describeConsumerGroups(mutableListOf(id)).describedGroups()[id]!!.get()
                     .let(::consumerGroupDetailOf)
 
     fun offsets(id: String): List<ConsumerGroupOffset> =
-            adminClient().listConsumerGroupOffsets(id).partitionsToOffsetAndMetadata()
+            client()
+                    .listConsumerGroupOffsets(id).partitionsToOffsetAndMetadata()
                     .get()
                     .map(::consumerGroupOffsetOf)
 }

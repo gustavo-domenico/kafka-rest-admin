@@ -31,7 +31,7 @@ class ConsumerGroupServiceTest extends Specification {
 		when:
 			def actual = consumerGroupService.list()
 		then:
-			1 * adminClientFactory.build() >> adminClient
+			1 * adminClientFactory.buildClient() >> adminClient
 			1 * adminClient.listConsumerGroups() >> listConsumerGroupsResult
 			1 * listConsumerGroupsResult.all() >> completedFuture(consumerGroupListings())
 
@@ -42,7 +42,7 @@ class ConsumerGroupServiceTest extends Specification {
 		when:
 			def actual = consumerGroupService.get(oneConsumerGroup().id)
 		then:
-			1 * adminClientFactory.build() >> adminClient
+			1 * adminClientFactory.buildClient() >> adminClient
 			1 * adminClient.describeConsumerGroups([oneConsumerGroup().id]) >> describeConsumerGroupsResult
 			1 * describeConsumerGroupsResult.describedGroups() >> [oneConsumerGroup: completedFuture(oneConsumerGroupDescription())]
 
@@ -53,7 +53,7 @@ class ConsumerGroupServiceTest extends Specification {
 		when:
 			def actual = consumerGroupService.offsets(oneConsumerGroup().id)
 		then:
-			1 * adminClientFactory.build() >> adminClient
+			1 * adminClientFactory.buildClient() >> adminClient
 			1 * adminClient.listConsumerGroupOffsets(oneConsumerGroup().id) >> listConsumerGroupOffsetsResult
 
 			1 * listConsumerGroupOffsetsResult.partitionsToOffsetAndMetadata() >> completedFuture(

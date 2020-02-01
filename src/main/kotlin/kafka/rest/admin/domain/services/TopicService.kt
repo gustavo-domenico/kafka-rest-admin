@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service
 @Service
 class TopicService(adminClientFactory: AdminClientFactory) : KafkaService(adminClientFactory) {
     fun list(): List<Topic> =
-            adminClient().listTopics().listings()
+            client().listTopics().listings()
                     .get().map { l -> Topic(l.name()) }
 
     fun get(name: String): TopicDetail =
-            adminClient().describeTopics(mutableListOf(name)).values()[name]!!.get()
+            client().describeTopics(mutableListOf(name)).values()[name]!!.get()
                     .let(::topicDetailOf)
 }

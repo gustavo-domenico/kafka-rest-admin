@@ -21,7 +21,7 @@ class ClusterServiceSpec extends Specification {
 		when:
 			def actual = clusterService.get()
 		then:
-			1 * adminClientFactory.build() >> adminClient
+			1 * adminClientFactory.buildClient() >> adminClient
 			1 * adminClient.describeCluster() >> describeClusterResult
 			1 * describeClusterResult.controller() >> completedFuture(controllerNode())
 			1 * describeClusterResult.nodes() >> completedFuture(nodesNode())

@@ -25,7 +25,7 @@ class TopicServiceSpec extends Specification {
 		when:
 			def actual = topicService.list()
 		then:
-			1 * adminClientFactory.build() >> adminClient
+			1 * adminClientFactory.buildClient() >> adminClient
 			1 * adminClient.listTopics() >> listTopicsResult
 			1 * listTopicsResult.listings() >> completedFuture(topicListings())
 
@@ -36,7 +36,7 @@ class TopicServiceSpec extends Specification {
 		when:
 			def actual = topicService.get(oneTopic().name)
 		then:
-			1 * adminClientFactory.build() >> adminClient
+			1 * adminClientFactory.buildClient() >> adminClient
 			1 * adminClient.describeTopics([oneTopic().name]) >> describeTopicsResult
 			1 * describeTopicsResult.values() >> [oneRandomTopicName: completedFuture(oneTopicDescription())]
 
