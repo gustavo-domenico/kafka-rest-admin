@@ -14,15 +14,16 @@ class MessageService(adminClientFactory: AdminClientFactory) : KafkaService(admi
         val rawRecords = ArrayList<ConsumerRecord<String, String>>()
         val tp = TopicPartition(topic, partition)
 
-        val consumer = consumer();
-        consumer().assign(listOf(tp))
-        consumer.seek(tp, offset)
+        val newConsumer = consumer();
 
-        val latestOffset = consumer.endOffsets(listOf(tp)).get(tp)!! - 1
+        newConsumer.assign(listOf(tp))
+        newConsumer.seek(tp, offset)
+
+        val latestOffset = newConsumer.endOffsets(listOf(tp)).get(tp)!! - 1
 
         var currentOffset = offset - 1
         while (currentOffset < latestOffset) {
-            val polled = consumer.poll(ofMillis(200)).records(tp)
+            val polled = newConsumer.poll(ofMillis(200)).records(tp)
             if (polled.isNotEmpty()) {
                 rawRecords.addAll(polled)
                 currentOffset = polled[polled.size - 1].offset()

@@ -17,6 +17,8 @@ import org.apache.kafka.common.TopicPartitionInfo
 class TopicModelFactories {
 	static def oneTopic() { new Topic("oneRandomTopicName") }
 
+	static def topicPartition() { new org.apache.kafka.common.TopicPartition(oneTopic().name, 0) }
+
 	static def oneTopicResource() { new TopicResource(oneTopic()) }
 
 	static def oneTopicDetail(port = 0) {
