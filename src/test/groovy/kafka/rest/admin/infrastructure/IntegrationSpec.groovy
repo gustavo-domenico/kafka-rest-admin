@@ -19,7 +19,7 @@ import static kafka.rest.admin.infrastructure.KafkaDataSetup.loadData
 @SpringBootTest
 @ContextConfiguration(initializers = [Initializer.class])
 @DirtiesContext
-abstract class IntegrationTest extends Specification {
+abstract class IntegrationSpec extends Specification {
 	@Autowired
 	protected MockMvc mockMvc
 

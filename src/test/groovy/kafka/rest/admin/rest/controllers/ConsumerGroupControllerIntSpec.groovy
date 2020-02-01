@@ -1,6 +1,6 @@
 package kafka.rest.admin.rest.controllers
 
-import kafka.rest.admin.infrastructure.IntegrationTest
+import kafka.rest.admin.infrastructure.IntegrationSpec
 
 import static kafka.rest.admin.infrastructure.factories.ConsumerGroupModelFactories.oneConsumerGroup
 import static kafka.rest.admin.infrastructure.factories.ConsumerGroupModelFactories.oneConsumerGroupDetailPayload
@@ -13,7 +13,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-class ConsumerGroupControllerIntSpec extends IntegrationTest {
+class ConsumerGroupControllerIntSpec extends IntegrationSpec {
 	def "should return all consumer groups"() {
 		when:
 			def mvcResult = mockMvc.perform(get(CONSUMER_GROUPS))

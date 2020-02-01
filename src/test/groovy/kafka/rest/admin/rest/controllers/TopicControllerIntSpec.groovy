@@ -1,6 +1,6 @@
 package kafka.rest.admin.rest.controllers
 
-import kafka.rest.admin.infrastructure.IntegrationTest
+import kafka.rest.admin.infrastructure.IntegrationSpec
 
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.onTopicDetailPayload
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.oneTopic
@@ -11,7 +11,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-class TopicControllerIntSpec extends IntegrationTest {
+class TopicControllerIntSpec extends IntegrationSpec {
 	def "should return all topics"() {
 		when:
 			def mvcResult = mockMvc.perform(get(TOPICS))

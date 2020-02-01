@@ -11,7 +11,7 @@ import static kafka.rest.admin.infrastructure.factories.MessageModelFactories.me
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.oneTopic
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.topicPartition
 
-class MessageServiceTest extends Specification {
+class MessageServiceSpec extends Specification {
 	KafkaConsumer<String, String> consumer = Mock()
 	AdminClientFactory adminClientFactory = Mock()
 	ConsumerRecords<String, String> records = Mock()

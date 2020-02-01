@@ -18,7 +18,7 @@ import static kafka.rest.admin.infrastructure.factories.ConsumerGroupModelFactor
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.oneTopicDetail
 import static org.apache.kafka.common.KafkaFuture.completedFuture
 
-class ConsumerGroupServiceTest extends Specification {
+class ConsumerGroupServiceSpec extends Specification {
 	ListConsumerGroupsResult listConsumerGroupsResult = Mock()
 	DescribeConsumerGroupsResult describeConsumerGroupsResult = Mock()
 	ListConsumerGroupOffsetsResult listConsumerGroupOffsetsResult = Mock()

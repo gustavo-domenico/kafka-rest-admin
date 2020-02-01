@@ -7,7 +7,7 @@ import static kafka.rest.admin.infrastructure.factories.MessageModelFactories.me
 import static kafka.rest.admin.infrastructure.factories.MessageModelFactories.messages
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.oneTopic
 
-class MessageControllerTest extends Specification {
+class MessageControllerSpec extends Specification {
 	MessageService messageService = Mock()
 	MessageController messageController = new MessageController(messageService)
 

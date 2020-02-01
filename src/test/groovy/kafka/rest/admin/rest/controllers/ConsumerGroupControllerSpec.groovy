@@ -11,7 +11,7 @@ import static kafka.rest.admin.infrastructure.factories.ConsumerGroupModelFactor
 import static kafka.rest.admin.infrastructure.factories.ConsumerGroupModelFactories.oneConsumerGroupDetail
 import static kafka.rest.admin.infrastructure.factories.ConsumerGroupModelFactories.oneConsumerGroupDetailResource
 
-class ConsumerGroupControllerTest extends Specification {
+class ConsumerGroupControllerSpec extends Specification {
 	ConsumerGroupService consumerGroupService = Mock()
 	ConsumerGroupController consumerGroupController = new ConsumerGroupController(consumerGroupService)
 
