@@ -1,14 +1,12 @@
-package kafka.rest.admin.rest.controllers
+package kafka.rest.admin.rest.controllers.integration
 
 import kafka.rest.admin.infrastructure.IntegrationSpec
+import kafka.rest.admin.infrastructure.routes.Routes
 
 import static kafka.rest.admin.infrastructure.factories.ConsumerGroupModelFactories.oneConsumerGroup
 import static kafka.rest.admin.infrastructure.factories.ConsumerGroupModelFactories.oneConsumerGroupDetailPayload
 import static kafka.rest.admin.infrastructure.payloads.Payloads.consumerGroupOffsetsPayload
 import static kafka.rest.admin.infrastructure.payloads.Payloads.consumerGroupsPayload
-import static kafka.rest.admin.infrastructure.routes.Routes.CONSUMER_GROUPS
-import static kafka.rest.admin.infrastructure.routes.Routes.OFFSETS
-import static kafka.rest.admin.infrastructure.routes.Routes.RESOURCE_ID
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
@@ -16,7 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class ConsumerGroupControllerIntSpec extends IntegrationSpec {
 	def "should return all consumer groups"() {
 		when:
-			def mvcResult = mockMvc.perform(get(CONSUMER_GROUPS))
+			def mvcResult = mockMvc.perform(get(Routes.CONSUMER_GROUPS))
 		then:
 			mvcResult.andExpect(status().isOk())
 					.andExpect(content().json(consumerGroupsPayload()))
@@ -24,7 +22,7 @@ class ConsumerGroupControllerIntSpec extends IntegrationSpec {
 
 	def "return one specific consumer group information"() {
 		when:
-			def mvcResult = mockMvc.perform(get("${CONSUMER_GROUPS}/{${RESOURCE_ID}}", oneConsumerGroup().id))
+			def mvcResult = mockMvc.perform(get("${Routes.CONSUMER_GROUPS}/{${Routes.RESOURCE_ID}}", oneConsumerGroup().id))
 		then:
 			mvcResult.andExpect(status().isOk())
 					.andExpect(content().json(oneConsumerGroupDetailPayload()))
@@ -32,7 +30,7 @@ class ConsumerGroupControllerIntSpec extends IntegrationSpec {
 
 	def "return consumer group offsets"() {
 		when:
-			def mvcResult = mockMvc.perform(get("${CONSUMER_GROUPS}/{${RESOURCE_ID}}/${OFFSETS}", oneConsumerGroup().id))
+			def mvcResult = mockMvc.perform(get("${Routes.CONSUMER_GROUPS}/{${Routes.RESOURCE_ID}}/${Routes.OFFSETS}", oneConsumerGroup().id))
 		then:
 			mvcResult.andExpect(status().isOk())
 					.andExpect(content().json(consumerGroupOffsetsPayload()))

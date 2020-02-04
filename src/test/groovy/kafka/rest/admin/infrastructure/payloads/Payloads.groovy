@@ -1,8 +1,5 @@
 package kafka.rest.admin.infrastructure.payloads
 
-import static kafka.rest.admin.infrastructure.factories.ConsumerGroupModelFactories.oneConsumerGroup
-import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.oneTopic
-
 class Payloads {
 	static def messagePayload() {
 		"""
@@ -15,65 +12,70 @@ class Payloads {
 	static def messagesPayload() {
 		"""
 		{
-		  "_embedded": {
-		    "messageList": [
-		      {
-		        "content": "content"
-		      }
-		    ]
-		  }
-		}
+  "links": [],
+  "content": [
+    {
+      "content": "content",
+      "links": [
+        {
+          "rel": "raw",
+          "href": "http://localhost/messages/topic/oneRandomTopicName/partition/0/offset/0/raw"
+        }
+      ]
+    }
+  ]
+}
 		"""
 	}
 
 	static def consumerGroupOffsetsPayload() {
 		"""
 			{
-			  "_embedded": {
-			    "consumerGroupOffsetList": [
-			      {
-			        "topicName": "${oneTopic().name}",
-			        "partition": 0,
-			        "offset": 1,
-			        "metadata": "",
-			        "_links": {
-			          "topic": {
-			            "href": "http://localhost/topics/${oneTopic().name}"
-			          }
-			        }
-			      }
-			    ]
-			  },
-			  "_links": {
-			    "self": {
-			      "href": "http://localhost/consumer-groups/${oneConsumerGroup().id}/offsets"
-			    }
-			  }
-			}
+  "links": [
+    {
+      "rel": "self",
+      "href": "http://localhost/consumer-groups/oneConsumerGroup/offsets"
+    }
+  ],
+  "content": [
+    {
+      "topicName": "oneRandomTopicName",
+      "partition": 0,
+      "offset": 1,
+      "metadata": "",
+      "links": [
+        {
+          "rel": "topic",
+          "href": "http://localhost/topics/oneRandomTopicName"
+        }
+      ]
+    }
+  ]
+}
 		"""
 	}
 
 	static def consumerGroupsPayload() {
 		"""
 			{
-			  "_embedded": {
-			    "consumerGroupList": [
-			      {
-			        "id": "${oneConsumerGroup().id}",
-			        "_links": {
-			          "self": {
-			            "href": "http://localhost/consumer-groups/${oneConsumerGroup().id}"
-			          }
-			        }
-			      }
-			    ]
-			  },
-			  "_links": {
-			    "self": {
-			      "href": "http://localhost/consumer-groups"
-			    }
-			  }
-			}
+  "links": [
+    {
+      "rel": "self",
+      "href": "http://localhost/consumer-groups"
+    }
+  ],
+  "content": [
+    {
+      "id": "oneConsumerGroup",
+      "links": [
+        {
+          "rel": "self",
+          "href": "http://localhost/consumer-groups/oneConsumerGroup"
+        }
+      ]
+    }
+  ]
+}
 		"""
 	}
 

@@ -1,4 +1,4 @@
-package kafka.rest.admin.rest.controllers
+package kafka.rest.admin.rest.controllers.integration
 
 import kafka.rest.admin.infrastructure.IntegrationSpec
 
