@@ -1,0 +1,14 @@
+{
+  "links": [],
+  "content": [
+    {
+      "content": "content",
+      "links": [
+        {
+          "rel": "raw",
+          "href": "http://localhost/messages/topic/oneRandomTopicName/partition/0/offset/0/raw"
+        }
+      ]
+    }
+  ]
+}

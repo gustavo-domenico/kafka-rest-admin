@@ -1,0 +1,19 @@
+{
+  "links": [
+    {
+      "rel": "self",
+      "href": "http://localhost/consumer-groups"
+    }
+  ],
+  "content": [
+    {
+      "id": "oneConsumerGroup",
+      "links": [
+        {
+          "rel": "self",
+          "href": "http://localhost/consumer-groups/oneConsumerGroup"
+        }
+      ]
+    }
+  ]
+}

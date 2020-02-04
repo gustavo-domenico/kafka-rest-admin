@@ -1,0 +1,28 @@
+{
+    "links": [
+        {
+            "rel": "self",
+            "href": "http://localhost/topics"
+        }
+    ],
+    "content": [
+        {
+            "name": "oneRandomTopicName",
+            "links": [
+                {
+                    "rel": "self",
+                    "href": "http://localhost/topics/oneRandomTopicName"
+                }
+            ]
+        },
+        {
+            "name": "anotherRandomTopicName",
+            "links": [
+                {
+                    "rel": "self",
+                    "href": "http://localhost/topics/anotherRandomTopicName"
+                }
+            ]
+        }
+    ]
+}

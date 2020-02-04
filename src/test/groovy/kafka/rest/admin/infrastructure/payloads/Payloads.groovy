@@ -1,115 +1,26 @@
 package kafka.rest.admin.infrastructure.payloads
 
+import org.springframework.core.io.ClassPathResource
+
 class Payloads {
 	static def messagePayload() {
-		"""
-			{ 
-				"content": "content" 
-			}
-		"""
+		new ClassPathResource("payloads/message.json").getFile().text
 	}
 
 	static def messagesPayload() {
-		"""
-		{
-  "links": [],
-  "content": [
-    {
-      "content": "content",
-      "links": [
-        {
-          "rel": "raw",
-          "href": "http://localhost/messages/topic/oneRandomTopicName/partition/0/offset/0/raw"
-        }
-      ]
-    }
-  ]
-}
-		"""
+		new ClassPathResource("payloads/messages.json").getFile().text
 	}
 
 	static def consumerGroupOffsetsPayload() {
-		"""
-			{
-  "links": [
-    {
-      "rel": "self",
-      "href": "http://localhost/consumer-groups/oneConsumerGroup/offsets"
-    }
-  ],
-  "content": [
-    {
-      "topicName": "oneRandomTopicName",
-      "partition": 0,
-      "offset": 1,
-      "metadata": "",
-      "links": [
-        {
-          "rel": "topic",
-          "href": "http://localhost/topics/oneRandomTopicName"
-        }
-      ]
-    }
-  ]
-}
-		"""
+		new ClassPathResource("payloads/consumerGroupOffsets.json").getFile().text
 	}
 
 	static def consumerGroupsPayload() {
-		"""
-			{
-  "links": [
-    {
-      "rel": "self",
-      "href": "http://localhost/consumer-groups"
-    }
-  ],
-  "content": [
-    {
-      "id": "oneConsumerGroup",
-      "links": [
-        {
-          "rel": "self",
-          "href": "http://localhost/consumer-groups/oneConsumerGroup"
-        }
-      ]
-    }
-  ]
-}
-		"""
+		new ClassPathResource("payloads/consumerGroups.json").getFile().text
 	}
 
 	static def topicsPayload() {
-		"""
-{
-  "links": [
-    {
-      "rel": "self",
-      "href": "http://localhost/topics"
-    }
-  ],
-  "content": [
-    {
-      "name": "oneRandomTopicName",
-      "links": [
-        {
-          "rel": "self",
-          "href": "http://localhost/topics/oneRandomTopicName"
-        }
-      ]
-    },
-    {
-      "name": "anotherRandomTopicName",
-      "links": [
-        {
-          "rel": "self",
-          "href": "http://localhost/topics/anotherRandomTopicName"
-        }
-      ]
-    }
-  ]
-}
-		"""
+		new ClassPathResource("payloads/topics.json").getFile().text
 	}
 }
 
