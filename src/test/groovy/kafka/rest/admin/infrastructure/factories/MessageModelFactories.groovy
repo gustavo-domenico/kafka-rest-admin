@@ -5,7 +5,7 @@ import kafka.rest.admin.rest.resources.MessageListResource
 import kafka.rest.admin.rest.resources.MessageResource
 
 class MessageModelFactories {
-	static def message() { new Message("RandomContent") }
+	static def message() { new Message("content ") }
 
 	static def messages() { [message()] }
 

@@ -12,6 +12,12 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping(MESSAGES)
 class MessageController(val messageService: MessageService) {
+    @RestGetMapping(value = ["/topic/{topic}/partition/{partition}/offset/{offset}/content"])
+    fun content(@PathVariable("topic") topic: String,
+             @PathVariable("partition") partition: Int,
+             @PathVariable("offset") offset: Long
+    ): String = messageService.offset(topic, partition, offset).content
+
     @RestGetMapping(value = ["/topic/{topic}/partition/{partition}/offset/{offset}"])
     fun offset(@PathVariable("topic") topic: String,
              @PathVariable("partition") partition: Int,
