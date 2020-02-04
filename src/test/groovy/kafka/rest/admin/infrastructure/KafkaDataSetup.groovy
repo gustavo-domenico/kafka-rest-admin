@@ -9,8 +9,7 @@ import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.kafka.common.serialization.StringSerializer
 import org.testcontainers.containers.KafkaContainer
 
-import java.time.Duration
-
+import static java.time.Duration.ofMillis
 import static kafka.rest.admin.infrastructure.factories.ConsumerGroupModelFactories.oneConsumerGroup
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.anotherTopic
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.oneTopic
@@ -44,7 +43,7 @@ class KafkaDataSetup {
 
 		consumer.subscribe([oneTopic().name])
 		producer.send(new ProducerRecord<>(oneTopic().name, 0, "testcontainers", "content")).get()
-		consumer.poll(Duration.ofMillis(5000))
+		consumer.poll(ofMillis(5000))
 		consumer.commitSync()
 	}
 }

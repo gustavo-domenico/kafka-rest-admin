@@ -18,7 +18,22 @@ class MessageServiceSpec extends Specification {
 
 	def messageService = new MessageService(adminClientFactory)
 
-	def "list should return all messages from topic/partition/offset"() {
+	def "offset should return message from specific topic/partition/offset"() {
+		when:
+			def actual = messageService.offset(oneTopic().name, 0, 0)
+		then:
+			1 * adminClientFactory.buildConsumer() >> consumer
+
+			1 * consumer.assign([topicPartition()])
+			1 * consumer.seek(topicPartition(), 0)
+
+			1 * records.records(topicPartition()) >>  [new ConsumerRecord<String, String>(oneTopic().name, 0, 0, "key", message().content)]
+			1 * consumer.poll(_) >> records
+
+			actual == message()
+	}
+
+	def "from should return all messages from topic/partition/offset"() {
 		when:
 			def actual = messageService.from(oneTopic().name, 0, 0)
 		then:
@@ -28,7 +43,7 @@ class MessageServiceSpec extends Specification {
 			1 * consumer.seek(topicPartition(), 0)
 			1 * consumer.endOffsets([topicPartition()]) >> [ (topicPartition()) : 1]
 
-			1 * records.records(_) >>  [new ConsumerRecord<String, String>(oneTopic().name, 0, 0, "key", message().content)]
+			1 * records.records(topicPartition()) >>  [new ConsumerRecord<String, String>(oneTopic().name, 0, 0, "key", message().content)]
 			1 * consumer.poll(_) >> records
 
 			actual == messages()
