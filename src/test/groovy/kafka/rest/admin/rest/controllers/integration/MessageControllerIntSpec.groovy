@@ -14,7 +14,8 @@ class MessageControllerIntSpec extends IntegrationSpec {
 	def "should return specific message content from topic/partition/offset"() {
 		when:
 			def mvcResult = mockMvc.perform(
-					get("/messages/topic/{topic}/partition/{partition}/offset/{offset}/raw", oneTopic().name, 0 , 0))
+					get("/messages/topic/{topic}/partition/{partition}/offset/{offset}/raw",
+							oneTopic().name, 0 , 0))
 		then:
 			mvcResult.andExpect(status().isOk())
 					.andExpect(content().string(message().content))
@@ -23,7 +24,8 @@ class MessageControllerIntSpec extends IntegrationSpec {
 	def "should return specific message from topic/partition/offset"() {
 		when:
 			def mvcResult = mockMvc.perform(
-					get("/messages/topic/{topic}/partition/{partition}/offset/{offset}", oneTopic().name, 0 , 0))
+					get("/messages/topic/{topic}/partition/{partition}/offset/{offset}",
+							oneTopic().name, 0 , 0))
 		then:
 			mvcResult.andExpect(status().isOk())
 					.andExpect(content().json(messagePayload()))
@@ -32,7 +34,8 @@ class MessageControllerIntSpec extends IntegrationSpec {
 	def "should return all messages from topic/partition/offset"() {
 		when:
 			def mvcResult = mockMvc.perform(
-					get("/messages/topic/{topic}/partition/{partition}/from/{offset}", oneTopic().name, 0 , 0))
+					get("/messages/topic/{topic}/partition/{partition}/from/{offset}",
+							oneTopic().name, 0 , 0))
 		then:
 			mvcResult.andExpect(status().isOk())
 					.andExpect(content().json(messagesPayload()))
