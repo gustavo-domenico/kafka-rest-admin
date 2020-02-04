@@ -7,7 +7,8 @@ import static kafka.rest.admin.infrastructure.factories.MessageModelFactories.me
 import static kafka.rest.admin.infrastructure.factories.MessageModelFactories.messageListResource
 import static kafka.rest.admin.infrastructure.factories.MessageModelFactories.messageResource
 import static kafka.rest.admin.infrastructure.factories.MessageModelFactories.messages
-import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.oneTopic
+import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.topicPartition
+import static org.springframework.http.ResponseEntity.ok
 
 class MessageControllerSpec extends Specification {
 	MessageService messageService = Mock()
@@ -15,25 +16,25 @@ class MessageControllerSpec extends Specification {
 
 	def "content should the message content"() {
 		when:
-			def actual = messageController.content(oneTopic().name, 1, 0)
+			def actual = messageController.raw(topicPartition().topic(), topicPartition().partition(), 0)
 		then:
-			1 * messageService.offset(oneTopic().name, 1, 0) >> message()
-			actual == message().content
+			1 * messageService.offset(topicPartition().topic(), topicPartition().partition(), 0) >> message()
+			actual == ok(message().content)
 	}
 
 	def "offset should the exactly message from topic/partition/offset"() {
 		when:
-			def actual = messageController.offset(oneTopic().name, 1, 0)
+			def actual = messageController.offset(topicPartition().topic(), topicPartition().partition(), 0)
 		then:
-			1 * messageService.offset(oneTopic().name, 1, 0) >> message()
+			1 * messageService.offset(topicPartition().topic(), topicPartition().partition(), 0) >> message()
 			actual == messageResource()
 	}
 
 	def "from should return all messages from topic/partition/offset"() {
 		when:
-			def actual = messageController.from(oneTopic().name, 1, 0)
+			def actual = messageController.from(topicPartition().topic(), topicPartition().partition(), 0)
 		then:
-			1 * messageService.from(oneTopic().name, 1, 0) >> messages()
+			1 * messageService.from(topicPartition().topic(), topicPartition().partition(), 0) >> messages()
 			actual == messageListResource()
 	}
 }

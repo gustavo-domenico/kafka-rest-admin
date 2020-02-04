@@ -14,7 +14,7 @@ class MessageControllerIntSpec extends IntegrationSpec {
 	def "should return specific message content from topic/partition/offset"() {
 		when:
 			def mvcResult = mockMvc.perform(
-					get("/messages/topic/{topic}/partition/{partition}/offset/{offset}/content", oneTopic().name, 0 , 0))
+					get("/messages/topic/{topic}/partition/{partition}/offset/{offset}/raw", oneTopic().name, 0 , 0))
 		then:
 			mvcResult.andExpect(status().isOk())
 					.andExpect(content().string(message().content))

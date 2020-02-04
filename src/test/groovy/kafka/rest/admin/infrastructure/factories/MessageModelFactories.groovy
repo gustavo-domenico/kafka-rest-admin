@@ -4,12 +4,14 @@ import kafka.rest.admin.domain.models.Message
 import kafka.rest.admin.rest.resources.MessageListResource
 import kafka.rest.admin.rest.resources.MessageResource
 
+import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.topicPartition
+
 class MessageModelFactories {
-	static def message() { new Message("content ") }
+	static def message() { new Message("content") }
 
 	static def messages() { [message()] }
 
-	static messageResource() { new MessageResource(message()) }
+	static messageResource() { new MessageResource(topicPartition().topic(), topicPartition().partition(), 0, message()) }
 
 	static messageListResource() {
 		new MessageListResource([messageResource()])
