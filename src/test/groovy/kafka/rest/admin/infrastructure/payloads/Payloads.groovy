@@ -5,6 +5,20 @@ import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.anot
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.oneTopic
 
 class Payloads {
+	static def messagesPayload() {
+		"""
+		{
+		  "_embedded": {
+		    "messageList": [
+		      {
+		        "content": "content"
+		      }
+		    ]
+		  }
+		}
+		"""
+	}
+
 	static def consumerGroupOffsetsPayload() {
 		"""
 			{
