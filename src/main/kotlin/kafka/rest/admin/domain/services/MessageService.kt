@@ -12,7 +12,7 @@ import java.util.*
 @Service
 class MessageService(adminClientFactory: AdminClientFactory) : KafkaService(adminClientFactory) {
     private fun find(consumer: KafkaConsumer<String, String>, topicPartition: TopicPartition, beginOffset: Long, endOffset: Long): List<Message> {
-        val rawRecords = ArrayList<ConsumerRecord<String, String>>()
+        val rawRecords = ArrayList<ConsumerRecord<String?, String>>()
 
         consumer.assign(listOf(topicPartition))
         consumer.seek(topicPartition, beginOffset)
