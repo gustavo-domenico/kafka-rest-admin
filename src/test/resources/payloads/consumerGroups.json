@@ -1,19 +1,19 @@
 {
-  "links": [
-    {
-      "rel": "self",
+  "_embedded": {
+    "consumerGroupList": [
+      {
+        "id": "oneConsumerGroup",
+        "_links": {
+          "self": {
+            "href": "http://localhost/consumer-groups/oneConsumerGroup"
+          }
+        }
+      }
+    ]
+  },
+  "_links": {
+    "self": {
       "href": "http://localhost/consumer-groups"
     }
-  ],
-  "content": [
-    {
-      "id": "oneConsumerGroup",
-      "links": [
-        {
-          "rel": "self",
-          "href": "http://localhost/consumer-groups/oneConsumerGroup"
-        }
-      ]
-    }
-  ]
+  }
 }

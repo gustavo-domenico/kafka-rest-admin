@@ -22,6 +22,10 @@ class Payloads {
 	static def topicsPayload() {
 		new ClassPathResource("payloads/topics.json").getFile().text
 	}
+
+	static def clusterPayload() {
+		new ClassPathResource("payloads/cluster.json").getFile().text
+	}
 }
 
 

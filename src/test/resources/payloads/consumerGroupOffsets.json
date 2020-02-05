@@ -1,22 +1,22 @@
 {
-  "links": [
-    {
-      "rel": "self",
+  "_embedded": {
+    "consumerGroupOffsetList": [
+      {
+        "topicName": "oneRandomTopicName",
+        "partition": 0,
+        "offset": 1,
+        "metadata": "",
+        "_links": {
+          "topic": {
+            "href": "http://localhost/topics/oneRandomTopicName"
+          }
+        }
+      }
+    ]
+  },
+  "_links": {
+    "self": {
       "href": "http://localhost/consumer-groups/oneConsumerGroup/offsets"
     }
-  ],
-  "content": [
-    {
-      "topicName": "oneRandomTopicName",
-      "partition": 0,
-      "offset": 1,
-      "metadata": "",
-      "links": [
-        {
-          "rel": "topic",
-          "href": "http://localhost/topics/oneRandomTopicName"
-        }
-      ]
-    }
-  ]
+  }
 }

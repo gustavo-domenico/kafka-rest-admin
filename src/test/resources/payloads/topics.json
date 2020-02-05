@@ -1,28 +1,27 @@
 {
-    "links": [
-        {
-            "rel": "self",
+    "_embedded": {
+        "topicList": [
+            {
+                "name": "oneRandomTopicName",
+                "_links": {
+                    "self": {
+                        "href": "http://localhost/topics/oneRandomTopicName"
+                    }
+                }
+            },
+            {
+                "name": "anotherRandomTopicName",
+                "_links": {
+                    "self": {
+                        "href": "http://localhost/topics/anotherRandomTopicName"
+                    }
+                }
+            }
+        ]
+    },
+    "_links": {
+        "self": {
             "href": "http://localhost/topics"
         }
-    ],
-    "content": [
-        {
-            "name": "oneRandomTopicName",
-            "links": [
-                {
-                    "rel": "self",
-                    "href": "http://localhost/topics/oneRandomTopicName"
-                }
-            ]
-        },
-        {
-            "name": "anotherRandomTopicName",
-            "links": [
-                {
-                    "rel": "self",
-                    "href": "http://localhost/topics/anotherRandomTopicName"
-                }
-            ]
-        }
-    ]
+    }
 }

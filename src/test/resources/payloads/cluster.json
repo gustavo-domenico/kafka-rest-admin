@@ -1,0 +1,23 @@
+{
+  "controller": {
+    "id": 1,
+    "host": "localhost"
+  },
+  "nodes": [
+    {
+      "id": 1,
+      "host": "localhost"
+    }
+  ],
+  "_links": {
+    "self": {
+      "href": "http://localhost"
+    },
+    "topics": {
+      "href": "http://localhost/topics"
+    },
+    "consumer-groups": {
+      "href": "http://localhost/consumer-groups"
+    }
+  }
+}
