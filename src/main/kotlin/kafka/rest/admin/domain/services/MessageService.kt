@@ -25,7 +25,7 @@ class MessageService(adminClientFactory: AdminClientFactory) : KafkaService(admi
                 currentOffset = polled[polled.size - 1].offset()
             }
         }
-        return rawRecords.map { m -> Message(m.value()) }
+        return rawRecords.map { m -> Message(m.key(), m.value(), m.timestamp()) }
     }
 
     fun offset(topic: String, partition: Int, offset: Long): Message {

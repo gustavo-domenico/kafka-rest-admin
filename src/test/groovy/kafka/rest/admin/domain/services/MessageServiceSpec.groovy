@@ -27,7 +27,7 @@ class MessageServiceSpec extends Specification {
 			1 * consumer.assign([topicPartition()])
 			1 * consumer.seek(topicPartition(), 0)
 
-			1 * records.records(topicPartition()) >>  [new ConsumerRecord<String, String>(oneTopic().name, 0, 0, "key", message().content)]
+			1 * records.records(topicPartition()) >>  [new ConsumerRecord<String, String>(oneTopic().name, 0, 0, message().key, message().content)]
 			1 * consumer.poll(_) >> records
 
 			actual == message()
@@ -43,7 +43,7 @@ class MessageServiceSpec extends Specification {
 			1 * consumer.seek(topicPartition(), 0)
 			1 * consumer.endOffsets([topicPartition()]) >> [ (topicPartition()) : 1]
 
-			1 * records.records(topicPartition()) >>  [new ConsumerRecord<String, String>(oneTopic().name, 0, 0, "key", message().content)]
+			1 * records.records(topicPartition()) >>  [new ConsumerRecord<String, String>(oneTopic().name, 0, 0, message().key, message().content)]
 			1 * consumer.poll(_) >> records
 
 			actual == messages()

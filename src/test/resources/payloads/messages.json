@@ -2,6 +2,7 @@
   "links": [],
   "content": [
     {
+      "key": "key",
       "content": "content",
       "links": [
         {

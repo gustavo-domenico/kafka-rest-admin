@@ -7,7 +7,7 @@ import kafka.rest.admin.rest.resources.MessageResource
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.topicPartition
 
 class MessageModelFactories {
-	static def message() { new Message("content") }
+	static def message() { new Message("key", "content") }
 
 	static def messages() { [message()] }
 

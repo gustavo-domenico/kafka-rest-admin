@@ -1,5 +1,6 @@
 package kafka.rest.admin.infrastructure
 
+
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.clients.producer.KafkaProducer
@@ -11,6 +12,7 @@ import org.testcontainers.containers.KafkaContainer
 
 import static java.time.Duration.ofMillis
 import static kafka.rest.admin.infrastructure.factories.ConsumerGroupModelFactories.oneConsumerGroup
+import static kafka.rest.admin.infrastructure.factories.MessageModelFactories.message
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.anotherTopic
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.oneTopic
 import static org.apache.kafka.clients.admin.AdminClient.create
@@ -42,7 +44,7 @@ class KafkaDataSetup {
 		)
 
 		consumer.subscribe([oneTopic().name])
-		producer.send(new ProducerRecord<>(oneTopic().name, 0, "testcontainers", "content")).get()
+		producer.send(new ProducerRecord<>(oneTopic().name, 0, message().key, message().content)).get()
 		consumer.poll(ofMillis(5000))
 		consumer.commitSync()
 	}
