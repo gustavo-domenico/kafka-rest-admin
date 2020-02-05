@@ -26,5 +26,6 @@ http://localhost:8080/swagger-ui.html
   
 ### Quick examples
 
-Get all messages from the _TransferService.transferStateChange_ topic, partition 0 and offset 97908:
+* Get all messages from the _TransferService.transferStateChange_ topic, partition 0 and offset 97908:
+
 `curl http://localhost:8080/messages/topic/TransferService.transferStateChange/partition/0/from/97908`
