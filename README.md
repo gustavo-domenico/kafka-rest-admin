@@ -33,3 +33,5 @@ http://localhost:8080/swagger-ui.html
 * Get all offsets for the document reporting consumer group:
 
 `curl http://localhost:8080/consumer-groups/document-reporting-service/offsets`
+
+_Note: try out in Postman :)_
