@@ -22,10 +22,14 @@ http://localhost:8080/swagger-ui.html
 * Messages
   * Get message raw contant for topic/partition/offset
   * Get message for topic/partition/offset
-  * Get message from topic/partition/offset
+  * Get messages from topic/partition/offset
   
 ### Quick examples
 
 * Get all messages from the _TransferService.transferStateChange_ topic, partition 0 and offset 97908:
 
 `curl http://localhost:8080/messages/topic/TransferService.transferStateChange/partition/0/from/97908`
+
+* Get all offsets for the document reporting consumer group:
+
+`curl http://localhost:8080/consumer-groups/document-reporting-service/offsets`
