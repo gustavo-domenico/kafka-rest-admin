@@ -3,6 +3,7 @@
 ## Running
 
 `export ENV_KAFKA_BOOTSTRAP_SERVERS=[kafka-bootstrap-servers]`
+
 `./gradlew bootRun`
 
 ## API documentation
