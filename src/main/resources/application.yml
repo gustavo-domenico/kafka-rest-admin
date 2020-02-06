@@ -1,6 +1,6 @@
 spring:
   kafka:
-      bootstrap-servers: ***REMOVED***
+      bootstrap-servers: ${ENV_KAFKA_BOOTSTRAP_SERVERS}
       consumer:
         auto-offset-reset: earliest
         key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
