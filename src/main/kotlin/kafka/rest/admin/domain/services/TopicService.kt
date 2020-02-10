@@ -13,6 +13,8 @@ class TopicService(adminClientFactory: AdminClientFactory) : KafkaService(adminC
                     .get().map { l -> Topic(l.name()) }
 
     fun get(name: String): TopicDetail =
-            client().describeTopics(mutableListOf(name)).values()[name]!!.get()
+            client().describeTopics(mutableListOf(name))
+                    .values()[name]!!
+                    .get()
                     .let(::topicDetailOf)
 }
