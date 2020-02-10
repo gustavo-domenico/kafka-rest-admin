@@ -8,7 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 class ClusterControllerIntSpec extends IntegrationSpec {
-	def "should cluster information"() {
+	def "should get cluster information"() {
 		when:
 			def mvcResult = mockMvc.perform(get("/"))
 		then:
