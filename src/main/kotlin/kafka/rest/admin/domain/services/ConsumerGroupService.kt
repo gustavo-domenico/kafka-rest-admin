@@ -16,7 +16,8 @@ class ConsumerGroupService(adminClientFactory: AdminClientFactory) : KafkaServic
 
     fun get(id: String): ConsumerGroupDetail =
             client()
-                    .describeConsumerGroups(mutableListOf(id)).describedGroups()[id]!!.get()
+                    .describeConsumerGroups(mutableListOf(id))
+                    .describedGroups()[id]!!.get()
                     .let(::consumerGroupDetailOf)
 
     fun offsets(id: String): List<ConsumerGroupOffset> =

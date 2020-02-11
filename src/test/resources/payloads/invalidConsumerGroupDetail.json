@@ -1,0 +1,17 @@
+{
+  "consumerGroup": {
+    "id": "INVALID_CONSUMER_GROUP_ID"
+  },
+  "state": "Dead",
+  "_links": {
+    "self": {
+      "href": "http://localhost/consumer-groups/INVALID_CONSUMER_GROUP_ID"
+    },
+    "offsets": {
+      "href": "http://localhost/consumer-groups/INVALID_CONSUMER_GROUP_ID/offsets"
+    },
+    "consumer-groups": {
+      "href": "http://localhost/consumer-groups"
+    }
+  }
+}
