@@ -12,7 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 class ConsumerGroupControllerIntSpec extends IntegrationSpec {
-	def "should return all consumer groups"() {
+	def "list should return all consumer groups"() {
 		when:
 			def mvcResult = mockMvc.perform(get("/consumer-groups"))
 		then:
@@ -20,7 +20,7 @@ class ConsumerGroupControllerIntSpec extends IntegrationSpec {
 					.andExpect(content().json(consumerGroupsPayload()))
 	}
 
-	def "should return one specific consumer group information"() {
+	def "get should return consumer group details"() {
 		when:
 			def mvcResult = mockMvc.perform(get("/consumer-groups/{id}", oneConsumerGroup().id))
 		then:
@@ -28,7 +28,7 @@ class ConsumerGroupControllerIntSpec extends IntegrationSpec {
 					.andExpect(content().json(oneConsumerGroupDetailPayload()))
 	}
 
-	def "should return dead state if consumer group does not exist"() {
+	def "get should return dead state if consumer group does not exist"() {
 		when:
 			def mvcResult = mockMvc.perform(get("/consumer-groups/{id}", "INVALID_CONSUMER_GROUP_ID"))
 		then:
@@ -36,7 +36,7 @@ class ConsumerGroupControllerIntSpec extends IntegrationSpec {
 					.andExpect(content().json(invalidConsumerGroupDetailPayload()))
 	}
 
-	def "should return consumer group offsets"() {
+	def "offsets should return consumer group offsets"() {
 		when:
 			def mvcResult = mockMvc.perform(get("/consumer-groups/{id}/offsets", oneConsumerGroup().id))
 		then:

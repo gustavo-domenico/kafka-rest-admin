@@ -24,7 +24,7 @@ class TopicServiceSpec extends Specification {
 
 	def topicService = new TopicService(adminClientFactory)
 
-	def "list should get all topics"() {
+	def "list should return topics"() {
 		when:
 			def actual = topicService.list()
 		then:
@@ -35,7 +35,7 @@ class TopicServiceSpec extends Specification {
 			actual == topics()
 	}
 
-	def "get should return one specific topic "() {
+	def "get should return topic details "() {
 		when:
 			def actual = topicService.get(oneTopic().name)
 		then:
@@ -46,12 +46,12 @@ class TopicServiceSpec extends Specification {
 			actual == oneTopicDetail()
 	}
 
-	def "get should throw exception is topic is not found "() {
+	def "get should throw exception if topic does not exist "() {
 		when:
 			topicService.get(INVALID_TOPIC_NAME)
 		then:
 			1 * adminClientFactory.buildClient() >> adminClient
-			1 * adminClient.describeTopics([INVALID_TOPIC_NAME]) >> { throw new EntityNotFoundException(INVALID_TOPIC_NAME) }
+			1 * adminClient.describeTopics([INVALID_TOPIC_NAME]) >> { throw new EntityNotFoundException(INVALID_TOPIC_NAME, new Exception()) }
 
 			thrown(EntityNotFoundException.class)
 	}

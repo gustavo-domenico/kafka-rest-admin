@@ -18,7 +18,7 @@ class MessageServiceSpec extends Specification {
 
 	def messageService = new MessageService(adminClientFactory)
 
-	def "offset should return message from specific topic/partition/offset"() {
+	def "offset should return one message from specific topic/partition/offset"() {
 		when:
 			def actual = messageService.offset(oneTopic().name, 0, 0)
 		then:

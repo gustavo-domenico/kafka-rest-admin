@@ -11,7 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 class MessageControllerIntSpec extends IntegrationSpec {
-	def "should return specific message content from topic/partition/offset"() {
+	def "raw should return message content from topic/partition/offset"() {
 		when:
 			def mvcResult = mockMvc.perform(
 					get("/messages/topic/{topic}/partition/{partition}/offset/{offset}/raw",
@@ -21,7 +21,7 @@ class MessageControllerIntSpec extends IntegrationSpec {
 					.andExpect(content().string(message().content))
 	}
 
-	def "should return specific message from topic/partition/offset"() {
+	def "offset should return message from topic/partition/offset"() {
 		when:
 			def mvcResult = mockMvc.perform(
 					get("/messages/topic/{topic}/partition/{partition}/offset/{offset}",
@@ -31,7 +31,7 @@ class MessageControllerIntSpec extends IntegrationSpec {
 					.andExpect(content().json(messagePayload()))
 	}
 
-	def "should return all messages from topic/partition/offset"() {
+	def "from should return all messages from topic/partition/offset"() {
 		when:
 			def mvcResult = mockMvc.perform(
 					get("/messages/topic/{topic}/partition/{partition}/from/{offset}",

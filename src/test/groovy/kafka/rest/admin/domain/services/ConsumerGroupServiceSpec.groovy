@@ -27,7 +27,7 @@ class ConsumerGroupServiceSpec extends Specification {
 
 	def consumerGroupService = new ConsumerGroupService(adminClientFactory)
 
-	def "list should get all consumer groups"() {
+	def "list should return consumer groups"() {
 		when:
 			def actual = consumerGroupService.list()
 		then:
@@ -38,7 +38,7 @@ class ConsumerGroupServiceSpec extends Specification {
 			actual == consumerGroups()
 	}
 
-	def "get should return one specific consumer group"() {
+	def "get should return consumer group details"() {
 		when:
 			def actual = consumerGroupService.get(oneConsumerGroup().id)
 		then:
@@ -49,7 +49,7 @@ class ConsumerGroupServiceSpec extends Specification {
 			actual == oneConsumerGroupDetail()
 	}
 
-	def "offset should consumer group partitions and offsets"() {
+	def "offset should return consumer group offsets"() {
 		when:
 			def actual = consumerGroupService.offsets(oneConsumerGroup().id)
 		then:

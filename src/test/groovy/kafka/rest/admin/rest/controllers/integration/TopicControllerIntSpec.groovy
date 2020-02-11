@@ -10,7 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 class TopicControllerIntSpec extends IntegrationSpec {
-	def "should return all topics"() {
+	def "list should return topics"() {
 		when:
 			def mvcResult = mockMvc.perform(get("/topics"))
 		then:
@@ -18,7 +18,7 @@ class TopicControllerIntSpec extends IntegrationSpec {
 					.andExpect(content().json(topicsPayload()))
 	}
 
-	def "should return one specific topic information"() {
+	def "get should return topic details"() {
 		when:
 			def mvcResult = mockMvc.perform(get("/topics/{name}", oneTopic().name))
 		then:
@@ -26,7 +26,7 @@ class TopicControllerIntSpec extends IntegrationSpec {
 					.andExpect(content().json(onTopicDetailPayload(port())))
 	}
 
-	def "should return 404 if topic is not found"() {
+	def "get should return 404 if topic does not exist"() {
 		when:
 			def mvcResult = mockMvc.perform(get("/topics/{name}", "INVALID_TOPIC_NAME" ))
 		then:

@@ -15,7 +15,7 @@ class ConsumerGroupControllerSpec extends Specification {
 	ConsumerGroupService consumerGroupService = Mock()
 	ConsumerGroupController consumerGroupController = new ConsumerGroupController(consumerGroupService)
 
-	def "list should return all consumer groups"() {
+	def "list should return consumer groups"() {
 		when:
 			def actual = consumerGroupController.list()
 		then:
@@ -23,7 +23,7 @@ class ConsumerGroupControllerSpec extends Specification {
 			actual == consumerGroupListResource()
 	}
 
-	def "get should return one specific consumer group"() {
+	def "get should return consumer group details"() {
 		when:
 			def actual = consumerGroupController.get(oneConsumerGroup().id)
 		then:

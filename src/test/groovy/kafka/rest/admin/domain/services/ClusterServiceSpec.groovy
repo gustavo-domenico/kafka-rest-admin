@@ -17,7 +17,7 @@ class ClusterServiceSpec extends Specification {
 
 	def clusterService = new ClusterService(adminClientFactory)
 
-	def "get should return cluster information"() {
+	def "get should return cluster details"() {
 		when:
 			def actual = clusterService.get()
 		then:

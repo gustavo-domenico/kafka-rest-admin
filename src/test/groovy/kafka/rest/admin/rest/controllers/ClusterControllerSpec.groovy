@@ -10,7 +10,7 @@ class ClusterControllerSpec extends Specification {
 	ClusterService clusterService = Mock()
 	ClusterController clusterController = new ClusterController(clusterService)
 
-	def "get should return cluster information"() {
+	def "get should return cluster details"() {
 		when:
 			def actual = clusterController.get()
 		then:
