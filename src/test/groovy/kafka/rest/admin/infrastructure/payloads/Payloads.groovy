@@ -19,12 +19,20 @@ class Payloads {
 		new ClassPathResource("payloads/consumerGroups.json").getFile().text
 	}
 
+	static def consumerGroupDetailPayload() {
+		new ClassPathResource("payloads/consumerGroupDetail.json").getFile().text
+	}
+
 	static def invalidConsumerGroupDetailPayload() {
 		new ClassPathResource("payloads/invalidConsumerGroupDetail.json").getFile().text
 	}
 
 	static def topicsPayload() {
 		new ClassPathResource("payloads/topics.json").getFile().text
+	}
+
+	static def topicDetailPayload() {
+		new ClassPathResource("payloads/topicDetail.json").getFile().text
 	}
 
 	static def clusterPayload() {

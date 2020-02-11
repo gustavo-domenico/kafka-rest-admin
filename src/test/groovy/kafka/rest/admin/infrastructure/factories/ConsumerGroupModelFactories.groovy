@@ -1,7 +1,6 @@
 package kafka.rest.admin.infrastructure.factories
 
-import com.fasterxml.jackson.databind.MapperFeature
-import com.fasterxml.jackson.databind.ObjectMapper
+
 import kafka.rest.admin.domain.models.ConsumerGroup
 import kafka.rest.admin.domain.models.ConsumerGroupDetail
 import kafka.rest.admin.domain.models.ConsumerGroupOffset
@@ -57,12 +56,6 @@ class ConsumerGroupModelFactories {
 
 	static def oneConsumerGroupDetailResource() {
 		return new ConsumerGroupDetailResource(oneConsumerGroupDetail())
-	}
-
-	static def oneConsumerGroupDetailPayload() {
-		def mapper = new ObjectMapper()
-		mapper.disable(MapperFeature.AUTO_DETECT_IS_GETTERS)
-		mapper.writeValueAsString(oneConsumerGroupDetail())
 	}
 
 	static def consumerGroupListings() {

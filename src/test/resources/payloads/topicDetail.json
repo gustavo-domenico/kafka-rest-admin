@@ -1,0 +1,23 @@
+{
+    "topic": {
+        "name": "oneRandomTopicName"
+    },
+    "partitionCount": 1,
+    "partitions": [
+        {
+            "partition": 0,
+            "leader": {
+                "id": 1,
+                "host": "localhost"
+            }
+        }
+    ],
+    "_links": {
+        "self": {
+            "href": "http://localhost/topics/oneRandomTopicName"
+        },
+        "topics": {
+            "href": "http://localhost/topics"
+        }
+    }
+}

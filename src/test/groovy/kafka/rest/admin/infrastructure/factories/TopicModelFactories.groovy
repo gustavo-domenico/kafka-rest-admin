@@ -1,7 +1,6 @@
 package kafka.rest.admin.infrastructure.factories
 
-import com.fasterxml.jackson.databind.MapperFeature
-import com.fasterxml.jackson.databind.ObjectMapper
+
 import kafka.rest.admin.domain.models.KafkaNode
 import kafka.rest.admin.domain.models.Topic
 import kafka.rest.admin.domain.models.TopicDetail
@@ -43,12 +42,6 @@ class TopicModelFactories {
 	static def topicsResources() { [oneTopicResource(), anotherTopicResource()] }
 
 	static def topicListResource() { new TopicListResource(topicsResources()) }
-
-	static def onTopicDetailPayload(port) {
-		def mapper = new ObjectMapper()
-		mapper.disable(MapperFeature.AUTO_DETECT_IS_GETTERS)
-		mapper.writeValueAsString(oneTopicDetail(port))
-	}
 
 	static def topicListings() {
 		[new TopicListing(oneTopic().name, false), new TopicListing(anotherTopic().name, false)]

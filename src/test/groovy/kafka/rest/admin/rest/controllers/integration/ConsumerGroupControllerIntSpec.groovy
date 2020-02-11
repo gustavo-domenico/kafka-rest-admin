@@ -3,7 +3,7 @@ package kafka.rest.admin.rest.controllers.integration
 import kafka.rest.admin.infrastructure.IntegrationSpec
 
 import static kafka.rest.admin.infrastructure.factories.ConsumerGroupModelFactories.oneConsumerGroup
-import static kafka.rest.admin.infrastructure.factories.ConsumerGroupModelFactories.oneConsumerGroupDetailPayload
+import static kafka.rest.admin.infrastructure.payloads.Payloads.consumerGroupDetailPayload
 import static kafka.rest.admin.infrastructure.payloads.Payloads.consumerGroupOffsetsPayload
 import static kafka.rest.admin.infrastructure.payloads.Payloads.consumerGroupsPayload
 import static kafka.rest.admin.infrastructure.payloads.Payloads.invalidConsumerGroupDetailPayload
@@ -25,7 +25,7 @@ class ConsumerGroupControllerIntSpec extends IntegrationSpec {
 			def mvcResult = mockMvc.perform(get("/consumer-groups/{id}", oneConsumerGroup().id))
 		then:
 			mvcResult.andExpect(status().isOk())
-					.andExpect(content().json(oneConsumerGroupDetailPayload()))
+					.andExpect(content().json(consumerGroupDetailPayload()))
 	}
 
 	def "get should return dead state if consumer group does not exist"() {

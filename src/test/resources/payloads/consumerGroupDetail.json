@@ -1,0 +1,17 @@
+{
+  "consumerGroup": {
+    "id": "oneConsumerGroup"
+  },
+  "state": "Stable",
+  "_links": {
+    "self": {
+      "href": "http://localhost/consumer-groups/oneConsumerGroup"
+    },
+    "offsets": {
+      "href": "http://localhost/consumer-groups/oneConsumerGroup/offsets"
+    },
+    "consumer-groups": {
+      "href": "http://localhost/consumer-groups"
+    }
+  }
+}
