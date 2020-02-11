@@ -18,11 +18,18 @@ class TopicControllerIntSpec extends IntegrationSpec {
 					.andExpect(content().json(topicsPayload()))
 	}
 
-	def "return one specific topic information"() {
+	def "should return one specific topic information"() {
 		when:
 			def mvcResult = mockMvc.perform(get("/topics/{name}", oneTopic().name))
 		then:
 			mvcResult.andExpect(status().isOk())
 					.andExpect(content().json(onTopicDetailPayload(port())))
+	}
+
+	def "should return 404 if topic is not found"() {
+		when:
+			def mvcResult = mockMvc.perform(get("/topics/{name}", "INVALID_TOPIC_NAME" ))
+		then:
+			mvcResult.andExpect(status().isNotFound())
 	}
 }

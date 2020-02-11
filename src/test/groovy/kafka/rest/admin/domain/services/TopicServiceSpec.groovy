@@ -1,6 +1,7 @@
 package kafka.rest.admin.domain.services
 
 import kafka.rest.admin.domain.factories.AdminClientFactory
+import kafka.rest.admin.exceptions.EntityNotFoundException
 import org.apache.kafka.clients.admin.AdminClient
 import org.apache.kafka.clients.admin.DescribeTopicsResult
 import org.apache.kafka.clients.admin.ListTopicsResult
@@ -14,6 +15,8 @@ import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.topi
 import static org.apache.kafka.common.KafkaFuture.completedFuture
 
 class TopicServiceSpec extends Specification {
+	private static final String INVALID_TOPIC_NAME = "INVALID_TOPIC_NAME"
+
 	ListTopicsResult listTopicsResult = Mock()
 	DescribeTopicsResult describeTopicsResult = Mock()
 	AdminClient adminClient = Mock()
@@ -41,5 +44,15 @@ class TopicServiceSpec extends Specification {
 			1 * describeTopicsResult.values() >> [oneRandomTopicName: completedFuture(oneTopicDescription())]
 
 			actual == oneTopicDetail()
+	}
+
+	def "get should throw exception is topic is not found "() {
+		when:
+			topicService.get(INVALID_TOPIC_NAME)
+		then:
+			1 * adminClientFactory.buildClient() >> adminClient
+			1 * adminClient.describeTopics([INVALID_TOPIC_NAME]) >> { throw new EntityNotFoundException(INVALID_TOPIC_NAME) }
+
+			thrown(EntityNotFoundException.class)
 	}
 }
