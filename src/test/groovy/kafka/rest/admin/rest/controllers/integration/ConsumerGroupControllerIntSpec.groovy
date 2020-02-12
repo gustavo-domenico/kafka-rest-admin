@@ -43,5 +43,4 @@ class ConsumerGroupControllerIntSpec extends IntegrationSpec {
 			mvcResult.andExpect(status().isOk())
 					.andExpect(content().json(consumerGroupOffsetsPayload()))
 	}
-
 }
