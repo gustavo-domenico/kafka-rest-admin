@@ -2,6 +2,7 @@ package kafka.rest.admin.domain.factories
 
 import kafka.rest.admin.exceptions.ClusterConnectionException
 import kafka.rest.admin.infrastructure.annotations.Factory
+import kafka.rest.admin.infrastructure.logging.Log
 import org.apache.kafka.clients.admin.AdminClient
 import org.apache.kafka.clients.consumer.ConsumerConfig.*
 import org.apache.kafka.clients.consumer.KafkaConsumer
@@ -11,10 +12,21 @@ import org.springframework.kafka.core.KafkaAdmin
 
 @Factory
 class AdminClientFactory(val kafkaAdmin: KafkaAdmin) {
+    companion object : Log
+
     fun buildClient(): AdminClient =
-            try { AdminClient.create(kafkaAdmin.config)!! }
-            catch (e: KafkaException) { throw ClusterConnectionException(e.message!!)
-    }
+            try {
+                val defaultConfig = kafkaAdmin
+                        .config
+                        .plus(arrayOf(
+                                "request.timeout.ms" to 5000,
+                                "retries" to 1
+                        ))
+                AdminClient.create(defaultConfig)!!
+            } catch (e: KafkaException) {
+                logger().error(e.message, e)
+                throw ClusterConnectionException(e.message!!)
+            }
 
     fun buildConsumer(): KafkaConsumer<String, String> =
             try {
@@ -23,5 +35,8 @@ class AdminClientFactory(val kafkaAdmin: KafkaAdmin) {
                         AUTO_OFFSET_RESET_CONFIG to "earliest",
                         GROUP_ID_CONFIG to "kafka-rest-admin-consumer"),
                         StringDeserializer(), StringDeserializer())
-            } catch (e: KafkaException) { throw ClusterConnectionException(e.message!!) }
+            } catch (e: KafkaException) {
+                logger().error(e.message, e)
+                throw ClusterConnectionException(e.message!!)
+            }
 }
