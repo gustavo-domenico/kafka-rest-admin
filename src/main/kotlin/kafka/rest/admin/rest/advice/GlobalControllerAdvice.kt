@@ -1,4 +1,4 @@
-package kafka.rest.admin.rest.controllers.advice
+package kafka.rest.admin.rest.advice
 
 import kafka.rest.admin.exceptions.ClusterConnectionException
 import kafka.rest.admin.exceptions.EntityNotFoundException
