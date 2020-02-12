@@ -13,19 +13,17 @@ import org.springframework.web.bind.annotation.ResponseStatus
 
 @ControllerAdvice
 class GlobalControllerAdvice {
-    val answerToTheUniverse = "42" // We don't have logging yet so, obviously, no log refs are available
-
     @ResponseBody
     @ResponseStatus(INTERNAL_SERVER_ERROR)
     @ExceptionHandler(ClusterConnectionException::class)
     fun handleClusterConnectionException(e: ClusterConnectionException): ResponseEntity<VndError> {
-        return ResponseEntity(VndError(answerToTheUniverse, e.message!!), INTERNAL_SERVER_ERROR)
+        return ResponseEntity(VndError(e.javaClass.simpleName, e.message!!), INTERNAL_SERVER_ERROR)
     }
 
     @ResponseBody
     @ResponseStatus(NOT_FOUND)
     @ExceptionHandler(EntityNotFoundException::class)
     fun handleEntityNotFoundException(e: EntityNotFoundException): ResponseEntity<VndError> {
-        return ResponseEntity(VndError(answerToTheUniverse, e.message!!), NOT_FOUND)
+        return ResponseEntity(VndError(e.javaClass.simpleName, e.message!!), NOT_FOUND)
     }
 }
