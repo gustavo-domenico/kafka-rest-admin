@@ -5,12 +5,14 @@ import kafka.rest.admin.exceptions.EntityNotFoundException
 import org.apache.kafka.clients.admin.AdminClient
 import org.apache.kafka.clients.admin.DescribeTopicsResult
 import org.apache.kafka.clients.admin.ListTopicsResult
+import org.apache.kafka.clients.consumer.KafkaConsumer
 import spock.lang.Specification
 
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.oneTopic
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.oneTopicDescription
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.oneTopicDetail
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.topicListings
+import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.topicPartition
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.topics
 import static org.apache.kafka.common.KafkaFuture.completedFuture
 
@@ -19,8 +21,10 @@ class TopicServiceSpec extends Specification {
 
 	ListTopicsResult listTopicsResult = Mock()
 	DescribeTopicsResult describeTopicsResult = Mock()
+
 	AdminClient adminClient = Mock()
 	AdminClientFactory adminClientFactory = Mock()
+	KafkaConsumer<String, String> kafkaConsumer = Mock()
 
 	def topicService = new TopicService(adminClientFactory)
 
@@ -40,8 +44,11 @@ class TopicServiceSpec extends Specification {
 			def actual = topicService.get(oneTopic().name)
 		then:
 			1 * adminClientFactory.buildClient() >> adminClient
+			1 * adminClientFactory.buildConsumer() >> kafkaConsumer
+
+			1 * kafkaConsumer.endOffsets(_) >> [(topicPartition()): 10]
 			1 * adminClient.describeTopics([oneTopic().name]) >> describeTopicsResult
-			1 * describeTopicsResult.values() >> [oneRandomTopicName: completedFuture(oneTopicDescription())]
+			1 * describeTopicsResult.values() >> [(oneTopic().name): completedFuture(oneTopicDescription())]
 
 			actual == oneTopicDetail()
 	}

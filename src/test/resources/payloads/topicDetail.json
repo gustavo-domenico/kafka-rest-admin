@@ -9,7 +9,8 @@
             "leader": {
                 "id": 1,
                 "host": "localhost"
-            }
+            },
+            "lastOffset": 1
         }
     ],
     "_links": {

@@ -22,7 +22,7 @@ class TopicModelFactories {
 
 	static def oneTopicDetail(port = 0) {
 		new TopicDetail(new Topic("oneRandomTopicName"), 1, [
-				new TopicPartition(0, new KafkaNode(1, "localhost", port))
+				new TopicPartition(0, new KafkaNode(1, "localhost", port), 10)
 		])
 	}
 
