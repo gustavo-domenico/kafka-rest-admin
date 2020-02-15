@@ -40,4 +40,14 @@ class MessageService(adminClientFactory: AdminClientFactory) : KafkaService(admi
 
         return find(newConsumer, topicPartition, offset, latestOffset)
     }
+
+    fun last(topic: String, partition: Int, messages: Long): List<Message> {
+        val newConsumer = consumer()
+        val topicPartition = TopicPartition(topic, partition)
+        val latestOffset = newConsumer
+                .endOffsets(listOf(topicPartition))[topicPartition]!! - 1
+
+        return find(newConsumer, topicPartition, latestOffset - messages + 1, latestOffset)
+    }
+
 }

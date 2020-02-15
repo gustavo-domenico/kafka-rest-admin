@@ -48,4 +48,20 @@ class MessageServiceSpec extends Specification {
 
 			actual == messages()
 	}
+
+	def "last should return last messages from topic/partition"() {
+		when:
+			def actual = messageService.last(oneTopic().name, 0, 1)
+		then:
+			1 * adminClientFactory.buildConsumer() >> consumer
+
+			1 * consumer.assign([topicPartition()])
+			1 * consumer.seek(topicPartition(), 4)
+			1 * consumer.endOffsets([topicPartition()]) >> [ (topicPartition()) : 5]
+
+			1 * records.records(topicPartition()) >>  [new ConsumerRecord<String, String>(oneTopic().name, 0, 4, message().key, message().content)]
+			1 * consumer.poll(_) >> records
+
+			actual == messages()
+	}
 }
