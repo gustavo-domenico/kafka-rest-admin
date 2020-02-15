@@ -37,4 +37,12 @@ class MessageControllerSpec extends Specification {
 			1 * messageService.from(topicPartition().topic(), topicPartition().partition(), 0) >> messages()
 			actual == messageListResource()
 	}
+
+	def "last should return last messages from topic/partition"() {
+		when:
+			def actual = messageController.last(topicPartition().topic(), topicPartition().partition(), 1)
+		then:
+			1 * messageService.last(topicPartition().topic(), topicPartition().partition(), 1) >> messages()
+			actual == messageListResource()
+	}
 }

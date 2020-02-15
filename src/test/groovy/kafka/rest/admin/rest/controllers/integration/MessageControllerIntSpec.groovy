@@ -40,4 +40,14 @@ class MessageControllerIntSpec extends IntegrationSpec {
 			mvcResult.andExpect(status().isOk())
 					.andExpect(content().json(messagesPayload()))
 	}
+
+	def "last should return last messages from topic/partition"() {
+		when:
+			def mvcResult = mockMvc.perform(
+					get("/messages/topic/{topic}/partition/{partition}/last/{messages}",
+							oneTopic().name, 0 , 1))
+		then:
+			mvcResult.andExpect(status().isOk())
+					.andExpect(content().json(messagesPayload()))
+	}
 }

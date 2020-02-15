@@ -26,4 +26,10 @@ class MessageController(val messageService: MessageService) {
     ): MessageListResource = MessageListResource(messageService
             .from(topic, partition, offset)
             .map { m -> MessageResource(topic, partition, offset, m) })
+
+    @RestGetMapping(value = ["/topic/{topic}/partition/{partition}/last/{messages}"])
+    fun last(@PathVariable topic: String, @PathVariable partition: Int, @PathVariable messages: Long
+    ): MessageListResource = MessageListResource(messageService
+            .last(topic, partition, messages)
+            .map { m -> MessageResource(topic, partition, 0, m) })
 }
