@@ -7,11 +7,11 @@ import kafka.rest.admin.rest.resources.MessageResource
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.topicPartition
 
 class MessageModelFactories {
-	static def message() { new Message("key", "content") }
+	static def message(offset = 0) { new Message("key", "content", offset) }
 
-	static def messages() { [message()] }
+	static def messages(offset = 0) { [message(offset)] }
 
-	static messageResource() { new MessageResource(topicPartition().topic(), topicPartition().partition(), 0, message()) }
+	static messageResource() { new MessageResource(topicPartition().topic(), topicPartition().partition(), message()) }
 
 	static messageListResource() {
 		new MessageListResource([messageResource()])

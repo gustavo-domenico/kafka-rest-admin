@@ -1,4 +1,10 @@
 {
   "key": "key",
-  "content": "content"
+  "content": "content",
+  "offset": 0,
+  "_links": {
+    "raw": {
+      "href": "http://localhost/messages/topic/oneRandomTopicName/partition/0/offset/0/raw"
+    }
+  }
 }

@@ -19,17 +19,17 @@ class MessageController(val messageService: MessageService) {
 
     @RestGetMapping(value = ["/topic/{topic}/partition/{partition}/offset/{offset}"])
     fun offset(@PathVariable topic: String, @PathVariable partition: Int, @PathVariable offset: Long
-    ): MessageResource = MessageResource(topic, partition, offset, messageService.offset(topic, partition, offset))
+    ): MessageResource = MessageResource(topic, partition, messageService.offset(topic, partition, offset))
 
     @RestGetMapping(value = ["/topic/{topic}/partition/{partition}/from/{offset}"])
     fun from(@PathVariable topic: String, @PathVariable partition: Int, @PathVariable offset: Long
     ): MessageListResource = MessageListResource(messageService
             .from(topic, partition, offset)
-            .map { m -> MessageResource(topic, partition, offset, m) })
+            .map { m -> MessageResource(topic, partition, m) })
 
     @RestGetMapping(value = ["/topic/{topic}/partition/{partition}/last/{messages}"])
     fun last(@PathVariable topic: String, @PathVariable partition: Int, @PathVariable messages: Long
     ): MessageListResource = MessageListResource(messageService
             .last(topic, partition, messages)
-            .map { m -> MessageResource(topic, partition, 0, m) })
+            .map { m -> MessageResource(topic, partition, m) })
 }

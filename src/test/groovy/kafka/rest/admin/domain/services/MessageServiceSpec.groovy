@@ -62,6 +62,6 @@ class MessageServiceSpec extends Specification {
 			1 * records.records(topicPartition()) >>  [new ConsumerRecord<String, String>(oneTopic().name, 0, 4, message().key, message().content)]
 			1 * consumer.poll(_) >> records
 
-			actual == messages()
+			actual == messages(4)
 	}
 }
