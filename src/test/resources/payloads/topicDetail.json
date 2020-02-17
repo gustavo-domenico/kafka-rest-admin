@@ -2,7 +2,7 @@
     "topic": {
         "name": "oneRandomTopicName"
     },
-    "partitionCount": 1,
+    "partitionCount": 2,
     "partitions": [
         {
             "partition": 0,
@@ -10,7 +10,15 @@
                 "id": 1,
                 "host": "localhost"
             },
-            "lastOffset": 1
+            "lastOffset": 5
+        },
+        {
+            "partition": 1,
+            "leader": {
+                "id": 1,
+                "host": "localhost"
+            },
+            "lastOffset": 5
         }
     ],
     "_links": {

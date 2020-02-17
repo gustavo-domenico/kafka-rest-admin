@@ -4,7 +4,18 @@
       {
         "topicName": "oneRandomTopicName",
         "partition": 0,
-        "offset": 1,
+        "offset": 5,
+        "metadata": "",
+        "_links": {
+          "topic": {
+            "href": "http://localhost/topics/oneRandomTopicName"
+          }
+        }
+      },
+      {
+        "topicName": "oneRandomTopicName",
+        "partition": 1,
+        "offset": 5,
         "metadata": "",
         "_links": {
           "topic": {

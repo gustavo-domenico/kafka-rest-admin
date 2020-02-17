@@ -9,6 +9,8 @@ import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.topi
 class MessageModelFactories {
 	static def message(offset = 0) { new Message("key", "content", offset) }
 
+	static def messageContent() { "content6" }
+
 	static def messages(offset = 0) { [message(offset)] }
 
 	static messageResource() { new MessageResource(topicPartition().topic(), topicPartition().partition(), message()) }
