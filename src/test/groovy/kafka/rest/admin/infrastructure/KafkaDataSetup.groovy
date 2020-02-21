@@ -53,6 +53,7 @@ class KafkaDataSetup {
 				new StringSerializer()
 		)
 
+		// Todo: use a call back for the topic result above and reuse admin client factory
 		sleep(20000)
 
 		consumer.subscribe([oneTopic().name])
