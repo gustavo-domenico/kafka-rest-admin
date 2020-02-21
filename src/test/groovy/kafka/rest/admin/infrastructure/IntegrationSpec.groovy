@@ -26,12 +26,6 @@ abstract class IntegrationSpec extends Specification {
 	@Autowired
 	protected KafkaAdmin kafkaAdmin
 
-	protected def port() {
-		def props = kafkaAdmin.config["bootstrap.servers"] as ArrayList
-		def server = props.get(0) as String
-		return server.substring(server.lastIndexOf(':') + 1).toInteger()
-	}
-
 	static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 		@Override
 		void initialize(ConfigurableApplicationContext context) {

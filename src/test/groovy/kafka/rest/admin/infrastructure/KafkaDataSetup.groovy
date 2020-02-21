@@ -1,7 +1,6 @@
 package kafka.rest.admin.infrastructure
 
 import org.apache.kafka.clients.admin.NewTopic
-import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
@@ -16,10 +15,10 @@ import static kafka.rest.admin.infrastructure.factories.ConsumerGroupModelFactor
 import static kafka.rest.admin.infrastructure.factories.MessageModelFactories.message
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.anotherTopic
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.oneTopic
+import static org.apache.kafka.clients.CommonClientConfigs.BOOTSTRAP_SERVERS_CONFIG
 import static org.apache.kafka.clients.admin.AdminClient.create
 import static org.apache.kafka.clients.consumer.ConsumerConfig.AUTO_OFFSET_RESET_CONFIG
 import static org.apache.kafka.clients.consumer.ConsumerConfig.GROUP_ID_CONFIG
-import static org.apache.kafka.clients.producer.ProducerConfig.BOOTSTRAP_SERVERS_CONFIG
 import static org.apache.kafka.clients.producer.ProducerConfig.CLIENT_ID_CONFIG
 import static org.testcontainers.shaded.com.google.common.collect.ImmutableMap.of
 
@@ -31,12 +30,16 @@ class KafkaDataSetup {
 				new NewTopic(anotherTopic().name, 1, (short)1)
 		]
 
-		def admin = create(Map.of(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaContainer.getBootstrapServers()))
+		def admin = create(Map.of(BOOTSTRAP_SERVERS_CONFIG, kafkaContainer.getBootstrapServers()))
+
+		// Wait topics to be created
 		admin.createTopics(newTopics)
+			.all()
+			.get()
 
 		KafkaConsumer<String, String> consumer = new KafkaConsumer<>(
 				of(
-						ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaContainer.getBootstrapServers(),
+						BOOTSTRAP_SERVERS_CONFIG, kafkaContainer.getBootstrapServers(),
 						GROUP_ID_CONFIG, oneConsumerGroup().id,
 						AUTO_OFFSET_RESET_CONFIG, "earliest"
 				),
@@ -52,9 +55,6 @@ class KafkaDataSetup {
 				new StringSerializer(),
 				new StringSerializer()
 		)
-
-		// Todo: use a call back for the topic result above and reuse admin client factory
-		sleep(20000)
 
 		consumer.subscribe([oneTopic().name])
 		IntStream.range(0, 10).forEach({ p ->
