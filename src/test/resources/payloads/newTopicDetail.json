@@ -1,0 +1,24 @@
+{
+    "topic": {
+        "name": "newTopic"
+    },
+    "partitionCount": 1,
+    "partitions": [
+        {
+            "partition": 0,
+            "leader": {
+                "id": 1,
+                "host": "localhost"
+            },
+            "lastOffset": 0
+        }
+    ],
+    "_links": {
+        "self": {
+            "href": "http://localhost/topics/newTopic"
+        },
+        "topics": {
+            "href": "http://localhost/topics"
+        }
+    }
+}

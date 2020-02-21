@@ -6,6 +6,7 @@ import kafka.rest.admin.domain.models.TopicDetail
 import kafka.rest.admin.domain.models.TopicPartition
 import kafka.rest.admin.infrastructure.helpers.runForEntity
 import org.apache.kafka.clients.admin.AdminClient
+import org.apache.kafka.clients.admin.NewTopic
 import org.apache.kafka.clients.admin.TopicDescription
 import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.springframework.stereotype.Service
@@ -26,15 +27,25 @@ class TopicService(val client: AdminClient, val consumer: KafkaConsumer<String, 
 
     fun get(name: String): TopicDetail =
             runForEntity(name) {
-                client.use { client ->
-                    client.describeTopics(mutableListOf(name))
-                            .values()[name]!!
-                            .get()
-                            .let {
-                                topicDetail(it, name)
-                            }
+                client.use {
+                    getTopicDetails(it, name)
                 }
             }
+
+    fun add(name: String, partitions: Int): TopicDetail =
+            client.use {
+                it.createTopics(listOf(NewTopic(name, partitions, 1.toShort())))
+                        .all()
+                getTopicDetails(it, name)
+            }
+
+    private fun getTopicDetails(client: AdminClient, name: String): TopicDetail =
+            client.describeTopics(mutableListOf(name))
+                    .values()[name]!!
+                    .get()
+                    .let {
+                        topicDetail(it, name)
+                    }
 
     private fun topicDetail(it: TopicDescription, name: String): TopicDetail {
         consumer.use { c ->

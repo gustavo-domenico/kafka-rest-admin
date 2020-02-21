@@ -50,6 +50,14 @@ class Payloads {
 	static def newMessageWithPartitionPayload() {
 		new ClassPathResource("payloads/newMessageWithPartition.json").getFile().text
 	}
+
+	static def topicRequestPayload() {
+		new ClassPathResource("payloads/topicRequest.json").getFile().text
+	}
+
+	static def newTopicDetailPayload() {
+		new ClassPathResource("payloads/newTopicDetail.json").getFile().text
+	}
 }
 
 

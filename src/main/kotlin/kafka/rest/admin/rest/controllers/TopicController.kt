@@ -2,10 +2,13 @@ package kafka.rest.admin.rest.controllers
 
 import kafka.rest.admin.domain.services.TopicService
 import kafka.rest.admin.infrastructure.annotations.RestGetMapping
+import kafka.rest.admin.infrastructure.annotations.RestPostMapping
+import kafka.rest.admin.rest.requests.TopicRequest
 import kafka.rest.admin.rest.resources.TopicDetailResource
 import kafka.rest.admin.rest.resources.TopicListResource
 import kafka.rest.admin.rest.resources.TopicResource
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -17,4 +20,7 @@ class TopicController(val topicService: TopicService) {
 
     @RestGetMapping(value = ["{name}"])
     fun get(@PathVariable name: String): TopicDetailResource = TopicDetailResource(topicService.get(name))
+
+    @RestPostMapping
+    fun add(@RequestBody request: TopicRequest): TopicDetailResource = TopicDetailResource(topicService.add(request.name, request.partitions))
 }

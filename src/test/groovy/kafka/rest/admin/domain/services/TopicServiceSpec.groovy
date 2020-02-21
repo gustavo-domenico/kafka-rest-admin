@@ -1,13 +1,14 @@
 package kafka.rest.admin.domain.services
 
-
 import kafka.rest.admin.exceptions.EntityNotFoundException
 import org.apache.kafka.clients.admin.AdminClient
+import org.apache.kafka.clients.admin.CreateTopicsResult
 import org.apache.kafka.clients.admin.DescribeTopicsResult
 import org.apache.kafka.clients.admin.ListTopicsResult
 import org.apache.kafka.clients.consumer.KafkaConsumer
 import spock.lang.Specification
 
+import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.newTopic
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.oneTopic
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.oneTopicDescription
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.oneTopicDetail
@@ -37,7 +38,7 @@ class TopicServiceSpec extends Specification {
 			actual == topics()
 	}
 
-	def "get should return topic details "() {
+	def "get should return topic details"() {
 		when:
 			def actual = topicService.get(oneTopic().name)
 		then:
@@ -48,7 +49,7 @@ class TopicServiceSpec extends Specification {
 			actual == oneTopicDetail()
 	}
 
-	def "get should throw exception if topic does not exist "() {
+	def "get should throw exception if topic does not exist"() {
 		when:
 			topicService.get(INVALID_TOPIC_NAME)
 		then:
@@ -56,4 +57,18 @@ class TopicServiceSpec extends Specification {
 
 			thrown(EntityNotFoundException.class)
 	}
+
+	def "add should create new topic"() {
+		when:
+			def topicDetail = topicService.add(newTopic().name(), newTopic().numPartitions())
+		then:
+			1 * client.createTopics(_) >> Mock(CreateTopicsResult)
+
+			1 * consumer.endOffsets(_) >> [(topicPartition()): 10]
+			1 * client.describeTopics([oneTopic().name]) >> describeTopicsResult
+			1 * describeTopicsResult.values() >> [(oneTopic().name): completedFuture(oneTopicDescription())]
+
+			topicDetail == oneTopicDetail()
+	}
+
 }

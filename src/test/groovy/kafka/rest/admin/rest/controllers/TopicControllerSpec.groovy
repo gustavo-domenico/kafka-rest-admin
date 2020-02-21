@@ -8,6 +8,7 @@ import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.oneT
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.oneTopicDetail
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.oneTopicDetailResource
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.topicListResource
+import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.topicRequest
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.topics
 
 class TopicControllerSpec extends Specification {
@@ -27,6 +28,14 @@ class TopicControllerSpec extends Specification {
 			def actual = topicController.get(oneTopic().name)
 		then:
 			1 * topicService.get(oneTopic().name) >> oneTopicDetail()
+			actual == oneTopicDetailResource()
+	}
+
+	def "add should create new topic"() {
+		when:
+			def actual = topicController.add(topicRequest())
+		then:
+			1 * topicService.add(topicRequest().name, topicRequest().partitions) >> oneTopicDetail()
 			actual == oneTopicDetailResource()
 	}
 }

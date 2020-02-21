@@ -3,9 +3,13 @@ package kafka.rest.admin.rest.controllers.integration
 import kafka.rest.admin.infrastructure.IntegrationSpec
 
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.oneTopic
+import static kafka.rest.admin.infrastructure.payloads.Payloads.newTopicDetailPayload
 import static kafka.rest.admin.infrastructure.payloads.Payloads.topicDetailPayload
+import static kafka.rest.admin.infrastructure.payloads.Payloads.topicRequestPayload
 import static kafka.rest.admin.infrastructure.payloads.Payloads.topicsPayload
+import static org.springframework.http.MediaType.APPLICATION_JSON
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
@@ -31,5 +35,16 @@ class TopicControllerIntSpec extends IntegrationSpec {
 			def mvcResult = mockMvc.perform(get("/topics/{name}", "INVALID_TOPIC_NAME" ))
 		then:
 			mvcResult.andExpect(status().isNotFound())
+	}
+
+	def "add should create a new topic"() {
+		when:
+			def mvcResult = mockMvc.perform(
+					post("/topics")
+							.contentType(APPLICATION_JSON)
+							.content(topicRequestPayload()))
+		then:
+			mvcResult.andExpect(status().isOk())
+					.andExpect(content().json(newTopicDetailPayload()))
 	}
 }
