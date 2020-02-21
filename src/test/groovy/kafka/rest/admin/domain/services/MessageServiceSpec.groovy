@@ -1,6 +1,6 @@
 package kafka.rest.admin.domain.services
 
-import kafka.rest.admin.domain.factories.AdminClientFactory
+
 import kotlin.Pair
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.clients.consumer.ConsumerRecords
@@ -20,17 +20,14 @@ import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.topi
 class MessageServiceSpec extends Specification {
 	KafkaConsumer<String, String> consumer = Mock()
 	KafkaProducer<String, String> producer = Mock()
-	AdminClientFactory adminClientFactory = Mock()
 	ConsumerRecords<String, String> records = Mock()
 
-	MessageService messageService = new MessageService(adminClientFactory)
+	MessageService messageService = new MessageService(consumer, producer)
 
 	def "offset should return one message from specific topic/partition/offset"() {
 		when:
 			def actual = messageService.offset(oneTopic().name, 0, 0)
 		then:
-			1 * adminClientFactory.buildConsumer() >> consumer
-
 			1 * consumer.assign([topicPartition()])
 			1 * consumer.seek(topicPartition(), 0)
 
@@ -44,8 +41,6 @@ class MessageServiceSpec extends Specification {
 		when:
 			def actual = messageService.from(oneTopic().name, 0, 0)
 		then:
-			1 * adminClientFactory.buildConsumer() >> consumer
-
 			1 * consumer.assign([topicPartition()])
 			1 * consumer.seek(topicPartition(), 0)
 			1 * consumer.endOffsets([topicPartition()]) >> [ (topicPartition()) : 1]
@@ -60,8 +55,6 @@ class MessageServiceSpec extends Specification {
 		when:
 			def actual = messageService.last(oneTopic().name, 0, 1)
 		then:
-			1 * adminClientFactory.buildConsumer() >> consumer
-
 			1 * consumer.assign([topicPartition()])
 			1 * consumer.seek(topicPartition(), 4)
 			1 * consumer.endOffsets([topicPartition()]) >> [ (topicPartition()) : 5]
@@ -76,7 +69,6 @@ class MessageServiceSpec extends Specification {
 		when:
 			def actual = messageService.send(oneTopic().name, messageRequest().key, messageRequest().content)
 		then:
-			1 * adminClientFactory.buildProducer() >> producer
 			1 * producer.send(producerRecord()) >> completedFuture(recordMetadata())
 
 			actual == new Pair(message(), 0)

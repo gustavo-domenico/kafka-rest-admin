@@ -1,6 +1,6 @@
 package kafka.rest.admin.domain.services
 
-import kafka.rest.admin.domain.factories.AdminClientFactory
+
 import kafka.rest.admin.exceptions.EntityNotFoundException
 import org.apache.kafka.clients.admin.AdminClient
 import org.apache.kafka.clients.admin.DescribeTopicsResult
@@ -22,18 +22,16 @@ class TopicServiceSpec extends Specification {
 	ListTopicsResult listTopicsResult = Mock()
 	DescribeTopicsResult describeTopicsResult = Mock()
 
-	AdminClient adminClient = Mock()
-	AdminClientFactory adminClientFactory = Mock()
-	KafkaConsumer<String, String> kafkaConsumer = Mock()
+	AdminClient client = Mock()
+	KafkaConsumer<String, String> consumer = Mock()
 
-	def topicService = new TopicService(adminClientFactory)
+	def topicService = new TopicService(client, consumer)
 
 	def "list should return topics"() {
 		when:
 			def actual = topicService.list()
 		then:
-			1 * adminClientFactory.buildClient() >> adminClient
-			1 * adminClient.listTopics() >> listTopicsResult
+			1 * client.listTopics() >> listTopicsResult
 			1 * listTopicsResult.listings() >> completedFuture(topicListings())
 
 			actual == topics()
@@ -43,11 +41,8 @@ class TopicServiceSpec extends Specification {
 		when:
 			def actual = topicService.get(oneTopic().name)
 		then:
-			1 * adminClientFactory.buildClient() >> adminClient
-			1 * adminClientFactory.buildConsumer() >> kafkaConsumer
-
-			1 * kafkaConsumer.endOffsets(_) >> [(topicPartition()): 10]
-			1 * adminClient.describeTopics([oneTopic().name]) >> describeTopicsResult
+			1 * consumer.endOffsets(_) >> [(topicPartition()): 10]
+			1 * client.describeTopics([oneTopic().name]) >> describeTopicsResult
 			1 * describeTopicsResult.values() >> [(oneTopic().name): completedFuture(oneTopicDescription())]
 
 			actual == oneTopicDetail()
@@ -57,8 +52,7 @@ class TopicServiceSpec extends Specification {
 		when:
 			topicService.get(INVALID_TOPIC_NAME)
 		then:
-			1 * adminClientFactory.buildClient() >> adminClient
-			1 * adminClient.describeTopics([INVALID_TOPIC_NAME]) >> { throw new EntityNotFoundException(INVALID_TOPIC_NAME, new Exception()) }
+			1 * client.describeTopics([INVALID_TOPIC_NAME]) >> { throw new EntityNotFoundException(INVALID_TOPIC_NAME, new Exception()) }
 
 			thrown(EntityNotFoundException.class)
 	}

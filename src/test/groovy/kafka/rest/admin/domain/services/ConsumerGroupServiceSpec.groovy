@@ -1,6 +1,6 @@
 package kafka.rest.admin.domain.services
 
-import kafka.rest.admin.domain.factories.AdminClientFactory
+
 import org.apache.kafka.clients.admin.AdminClient
 import org.apache.kafka.clients.admin.DescribeConsumerGroupsResult
 import org.apache.kafka.clients.admin.ListConsumerGroupOffsetsResult
@@ -22,17 +22,15 @@ class ConsumerGroupServiceSpec extends Specification {
 	ListConsumerGroupsResult listConsumerGroupsResult = Mock()
 	DescribeConsumerGroupsResult describeConsumerGroupsResult = Mock()
 	ListConsumerGroupOffsetsResult listConsumerGroupOffsetsResult = Mock()
-	AdminClient adminClient = Mock()
-	AdminClientFactory adminClientFactory = Mock()
+	AdminClient client = Mock()
 
-	def consumerGroupService = new ConsumerGroupService(adminClientFactory)
+	def consumerGroupService = new ConsumerGroupService(client)
 
 	def "list should return consumer groups"() {
 		when:
 			def actual = consumerGroupService.list()
 		then:
-			1 * adminClientFactory.buildClient() >> adminClient
-			1 * adminClient.listConsumerGroups() >> listConsumerGroupsResult
+			1 * client.listConsumerGroups() >> listConsumerGroupsResult
 			1 * listConsumerGroupsResult.all() >> completedFuture(consumerGroupListings())
 
 			actual == consumerGroups()
@@ -42,8 +40,7 @@ class ConsumerGroupServiceSpec extends Specification {
 		when:
 			def actual = consumerGroupService.get(oneConsumerGroup().id)
 		then:
-			1 * adminClientFactory.buildClient() >> adminClient
-			1 * adminClient.describeConsumerGroups([oneConsumerGroup().id]) >> describeConsumerGroupsResult
+			1 * client.describeConsumerGroups([oneConsumerGroup().id]) >> describeConsumerGroupsResult
 			1 * describeConsumerGroupsResult.describedGroups() >> [oneConsumerGroup: completedFuture(oneConsumerGroupDescription())]
 
 			actual == oneConsumerGroupDetail()
@@ -53,8 +50,7 @@ class ConsumerGroupServiceSpec extends Specification {
 		when:
 			def actual = consumerGroupService.offsets(oneConsumerGroup().id)
 		then:
-			1 * adminClientFactory.buildClient() >> adminClient
-			1 * adminClient.listConsumerGroupOffsets(oneConsumerGroup().id) >> listConsumerGroupOffsetsResult
+			1 * client.listConsumerGroupOffsets(oneConsumerGroup().id) >> listConsumerGroupOffsetsResult
 
 			1 * listConsumerGroupOffsetsResult.partitionsToOffsetAndMetadata() >> completedFuture(
 					[(new TopicPartition(oneTopicDetail().topic.name, oneTopicDetail().partitions.first().partition)): consumerGroupOffsetsAndMetadata()])

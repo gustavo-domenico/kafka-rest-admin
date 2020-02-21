@@ -1,14 +1,14 @@
 package kafka.rest.admin.domain.services
 
-import kafka.rest.admin.domain.factories.AdminClientFactory
 import kafka.rest.admin.domain.models.ClusterDetail
 import kafka.rest.admin.domain.models.ClusterDetail.Companion.clusterDetailOf
+import org.apache.kafka.clients.admin.AdminClient
 import org.springframework.stereotype.Service
 
 @Service
-class ClusterService(adminClientFactory: AdminClientFactory) : KafkaService(adminClientFactory) {
+class ClusterService(val client: AdminClient) {
     fun get(): ClusterDetail =
-            client().use {
+            client.use {
                 it.describeCluster().let(::clusterDetailOf)
             }
 }

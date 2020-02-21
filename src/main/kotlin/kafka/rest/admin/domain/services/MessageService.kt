@@ -1,9 +1,9 @@
 package kafka.rest.admin.domain.services
 
-import kafka.rest.admin.domain.factories.AdminClientFactory
 import kafka.rest.admin.domain.models.Message
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.clients.consumer.KafkaConsumer
+import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.TopicPartition
 import org.springframework.stereotype.Service
@@ -11,7 +11,7 @@ import java.time.Duration.ofMillis
 import java.util.*
 
 @Service
-class MessageService(adminClientFactory: AdminClientFactory) : KafkaService(adminClientFactory) {
+class MessageService(val consumer: KafkaConsumer<String, String>, val producer: KafkaProducer<String, String>) {
     private fun find(consumer: KafkaConsumer<String, String>, topicPartition: TopicPartition, beginOffset: Long, endOffset: Long): List<Message> {
         val rawRecords = ArrayList<ConsumerRecord<String?, String>>()
 
@@ -30,13 +30,13 @@ class MessageService(adminClientFactory: AdminClientFactory) : KafkaService(admi
     }
 
     fun offset(topic: String, partition: Int, offset: Long): Message {
-        consumer().use {
+        consumer.use {
             return find(it, TopicPartition(topic, partition), offset, offset).first()
         }
     }
 
     fun from(topic: String, partition: Int, offset: Long): List<Message> {
-        consumer().use {
+        consumer.use {
             val topicPartition = TopicPartition(topic, partition)
             val latestOffset = it
                     .endOffsets(listOf(topicPartition))[topicPartition]!! - 1
@@ -46,7 +46,7 @@ class MessageService(adminClientFactory: AdminClientFactory) : KafkaService(admi
     }
 
     fun last(topic: String, partition: Int, messages: Long): List<Message> {
-        consumer().use {
+        consumer.use {
             val topicPartition = TopicPartition(topic, partition)
             val latestOffset = it.endOffsets(listOf(topicPartition))[topicPartition]!! - 1
 
@@ -55,7 +55,7 @@ class MessageService(adminClientFactory: AdminClientFactory) : KafkaService(admi
     }
 
     fun send(topic: String, key: String?, content: String): Pair<Message, Int> =
-            producer().use {
+            producer.use {
                 it.send(ProducerRecord(topic, key, content)).get()
                         .let { r -> Pair(Message(key, content, r.offset(), r.timestamp()), r.partition()) }
             }

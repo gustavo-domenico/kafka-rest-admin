@@ -1,6 +1,6 @@
 package kafka.rest.admin.domain.services
 
-import kafka.rest.admin.domain.factories.AdminClientFactory
+
 import org.apache.kafka.clients.admin.AdminClient
 import org.apache.kafka.clients.admin.DescribeClusterResult
 import spock.lang.Specification
@@ -12,17 +12,15 @@ import static org.apache.kafka.common.KafkaFuture.completedFuture
 
 class ClusterServiceSpec extends Specification {
 	DescribeClusterResult describeClusterResult = Mock()
-	AdminClient adminClient = Mock()
-	AdminClientFactory adminClientFactory = Mock()
+	AdminClient client = Mock()
 
-	def clusterService = new ClusterService(adminClientFactory)
+	def clusterService = new ClusterService(client)
 
 	def "get should return cluster details"() {
 		when:
 			def actual = clusterService.get()
 		then:
-			1 * adminClientFactory.buildClient() >> adminClient
-			1 * adminClient.describeCluster() >> describeClusterResult
+			1 * client.describeCluster() >> describeClusterResult
 			1 * describeClusterResult.controller() >> completedFuture(controllerNode())
 			1 * describeClusterResult.nodes() >> completedFuture(nodesNode())
 
