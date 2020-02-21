@@ -3,11 +3,13 @@ package kafka.rest.admin.rest.controllers.integration
 import kafka.rest.admin.infrastructure.IntegrationSpec
 
 import static kafka.rest.admin.infrastructure.factories.MessageModelFactories.messageContent
+import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.anotherTopic
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.oneTopic
 import static kafka.rest.admin.infrastructure.payloads.Payloads.messagePayload
 import static kafka.rest.admin.infrastructure.payloads.Payloads.messageRequestPayload
 import static kafka.rest.admin.infrastructure.payloads.Payloads.messagesPayload
 import static kafka.rest.admin.infrastructure.payloads.Payloads.newMessagePayload
+import static kafka.rest.admin.infrastructure.payloads.Payloads.newMessageWithPartitionPayload
 import static org.springframework.http.MediaType.APPLICATION_JSON
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
@@ -51,7 +53,7 @@ class MessageControllerIntSpec extends IntegrationSpec {
 					.andExpect(content().json(messagesPayload()))
 	}
 
-	def "send should create new message and return it"() {
+	def "send should send new message to topic and return it"() {
 		when:
 			def mvcResult = mockMvc.perform(
 					post("/messages/topic/{topic}", oneTopic().name)
@@ -60,5 +62,16 @@ class MessageControllerIntSpec extends IntegrationSpec {
 		then:
 			mvcResult.andExpect(status().isOk())
 					.andExpect(content().json(newMessagePayload()))
+	}
+
+	def "send should send new message to topic/partition and return it"() {
+		when:
+			def mvcResult = mockMvc.perform(
+					post("/messages/topic/{topic}/partition/{partition}", anotherTopic().name, 0)
+							.contentType(APPLICATION_JSON)
+							.content(messageRequestPayload()))
+		then:
+			mvcResult.andExpect(status().isOk())
+					.andExpect(content().json(newMessageWithPartitionPayload()))
 	}
 }

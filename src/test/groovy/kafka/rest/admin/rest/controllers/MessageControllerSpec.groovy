@@ -49,11 +49,19 @@ class MessageControllerSpec extends Specification {
 			actual == messageListResource()
 	}
 
-	def "send should create new message and return it"() {
+	def "send should send new message to topic and return it"() {
 		when:
 			def actual = messageController.send(oneTopic().name, messageRequest())
 		then:
 			1 * messageService.send(oneTopic().name, messageRequest().key, messageRequest().content) >> new Pair(message(), 0)
+			actual == messageResource()
+	}
+
+	def "send should send new message to topic/partition and return it"() {
+		when:
+			def actual = messageController.send(oneTopic().name, topicPartition().partition(), messageRequest())
+		then:
+			1 * messageService.send(oneTopic().name, topicPartition().partition(), messageRequest().key, messageRequest().content) >> message()
 			actual == messageResource()
 	}
 }

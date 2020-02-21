@@ -59,4 +59,10 @@ class MessageService(val consumer: KafkaConsumer<String, String>, val producer: 
                 it.send(ProducerRecord(topic, key, content)).get()
                         .let { r -> Pair(Message(key, content, r.offset(), r.timestamp()), r.partition()) }
             }
+
+    fun send(topic: String, partition: Int, key: String?, content: String): Message =
+            producer.use {
+                it.send(ProducerRecord(topic, partition, key, content)).get()
+                        .let { r -> Message(key, content, r.offset(), r.timestamp()) }
+            }
 }

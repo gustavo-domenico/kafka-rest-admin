@@ -40,4 +40,8 @@ class MessageController(val messageService: MessageService) {
         val (message, partition) = messageService.send(topic, request.key, request.content)
         return MessageResource(topic, partition, message)
     }
+
+    @RestPostMapping(value = ["/topic/{topic}/partition/{partition}"])
+    fun send(@PathVariable topic: String, @PathVariable partition: Int, @RequestBody request: MessageRequest): MessageResource =
+         MessageResource(topic, partition, messageService.send(topic, partition, request.key, request.content))
 }

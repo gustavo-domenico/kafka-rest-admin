@@ -29,6 +29,10 @@ class MessageModelFactories {
 		new ProducerRecord<String, String>(oneTopic().name, messageRequest().key, messageRequest().content)
 	}
 
+	static producerRecordWithPartition() {
+		new ProducerRecord<String, String>(oneTopic().name, topicPartition().partition(), messageRequest().key, messageRequest().content)
+	}
+
 	static recordMetadata() {
 		new RecordMetadata(topicPartition(), 0, 0,-1,112313,1,1)
 	}

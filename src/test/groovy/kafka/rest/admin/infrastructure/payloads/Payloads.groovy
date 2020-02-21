@@ -46,6 +46,10 @@ class Payloads {
 	static def newMessagePayload() {
 		new ClassPathResource("payloads/newMessage.json").getFile().text
 	}
+
+	static def newMessageWithPartitionPayload() {
+		new ClassPathResource("payloads/newMessageWithPartition.json").getFile().text
+	}
 }
 
 

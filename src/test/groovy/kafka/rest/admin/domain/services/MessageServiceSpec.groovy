@@ -13,6 +13,7 @@ import static kafka.rest.admin.infrastructure.factories.MessageModelFactories.me
 import static kafka.rest.admin.infrastructure.factories.MessageModelFactories.messageRequest
 import static kafka.rest.admin.infrastructure.factories.MessageModelFactories.messages
 import static kafka.rest.admin.infrastructure.factories.MessageModelFactories.producerRecord
+import static kafka.rest.admin.infrastructure.factories.MessageModelFactories.producerRecordWithPartition
 import static kafka.rest.admin.infrastructure.factories.MessageModelFactories.recordMetadata
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.oneTopic
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.topicPartition
@@ -65,12 +66,21 @@ class MessageServiceSpec extends Specification {
 			actual == messages(4)
 	}
 
-	def "send should create new message and return it"() {
+	def "send should send new message to topic and return it"() {
 		when:
 			def actual = messageService.send(oneTopic().name, messageRequest().key, messageRequest().content)
 		then:
 			1 * producer.send(producerRecord()) >> completedFuture(recordMetadata())
 
 			actual == new Pair(message(), 0)
+	}
+
+	def "send should send new message to topic/partition and return it"() {
+		when:
+			def actual = messageService.send(oneTopic().name, topicPartition().partition(), messageRequest().key, messageRequest().content)
+		then:
+			1 * producer.send(producerRecordWithPartition()) >> completedFuture(recordMetadata())
+
+			actual == message()
 	}
 }
