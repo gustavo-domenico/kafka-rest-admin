@@ -8,5 +8,7 @@ import org.springframework.stereotype.Service
 @Service
 class ClusterService(adminClientFactory: AdminClientFactory) : KafkaService(adminClientFactory) {
     fun get(): ClusterDetail =
-            client().describeCluster().let(::clusterDetailOf)
+            client().use {
+                it.describeCluster().let(::clusterDetailOf)
+            }
 }
