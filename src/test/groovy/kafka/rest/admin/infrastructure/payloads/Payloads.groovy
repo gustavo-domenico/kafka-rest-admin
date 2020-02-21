@@ -38,6 +38,14 @@ class Payloads {
 	static def clusterPayload() {
 		new ClassPathResource("payloads/cluster.json").getFile().text
 	}
+
+	static def messageRequestPayload() {
+		new ClassPathResource("payloads/messageRequest.json").getFile().text
+	}
+
+	static def newMessagePayload() {
+		new ClassPathResource("payloads/newMessage.json").getFile().text
+	}
 }
 
 

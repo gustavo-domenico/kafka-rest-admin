@@ -4,6 +4,7 @@ import kafka.rest.admin.domain.factories.AdminClientFactory
 import kafka.rest.admin.domain.models.Message
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.clients.consumer.KafkaConsumer
+import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.TopicPartition
 import org.springframework.stereotype.Service
 import java.time.Duration.ofMillis
@@ -50,4 +51,7 @@ class MessageService(adminClientFactory: AdminClientFactory) : KafkaService(admi
         return find(newConsumer, topicPartition, latestOffset - messages + 1, latestOffset)
     }
 
+    fun send(topic: String, key: String?, content: String): Pair<Message, Int> =
+            producer().send(ProducerRecord(topic, key, content)).get()
+                    .let { r -> Pair(Message(key, content, r.offset(), r.timestamp()), r.partition()) }
 }

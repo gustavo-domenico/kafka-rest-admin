@@ -7,4 +7,5 @@ import org.springframework.stereotype.Service
 class KafkaService(val adminClientFactory: AdminClientFactory) {
     fun client() = adminClientFactory.buildClient()
     fun consumer() = adminClientFactory.buildConsumer()
+    fun producer() = adminClientFactory.buildProducer()
 }

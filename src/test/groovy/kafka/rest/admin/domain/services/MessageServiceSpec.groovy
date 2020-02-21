@@ -1,22 +1,29 @@
 package kafka.rest.admin.domain.services
 
 import kafka.rest.admin.domain.factories.AdminClientFactory
+import kotlin.Pair
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.clients.consumer.ConsumerRecords
 import org.apache.kafka.clients.consumer.KafkaConsumer
+import org.apache.kafka.clients.producer.KafkaProducer
 import spock.lang.Specification
 
+import static java.util.concurrent.CompletableFuture.completedFuture
 import static kafka.rest.admin.infrastructure.factories.MessageModelFactories.message
+import static kafka.rest.admin.infrastructure.factories.MessageModelFactories.messageRequest
 import static kafka.rest.admin.infrastructure.factories.MessageModelFactories.messages
+import static kafka.rest.admin.infrastructure.factories.MessageModelFactories.producerRecord
+import static kafka.rest.admin.infrastructure.factories.MessageModelFactories.recordMetadata
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.oneTopic
 import static kafka.rest.admin.infrastructure.factories.TopicModelFactories.topicPartition
 
 class MessageServiceSpec extends Specification {
 	KafkaConsumer<String, String> consumer = Mock()
+	KafkaProducer<String, String> producer = Mock()
 	AdminClientFactory adminClientFactory = Mock()
 	ConsumerRecords<String, String> records = Mock()
 
-	def messageService = new MessageService(adminClientFactory)
+	MessageService messageService = new MessageService(adminClientFactory)
 
 	def "offset should return one message from specific topic/partition/offset"() {
 		when:
@@ -63,5 +70,15 @@ class MessageServiceSpec extends Specification {
 			1 * consumer.poll(_) >> records
 
 			actual == messages(4)
+	}
+
+	def "send should create new message and return it"() {
+		when:
+			def actual = messageService.send(oneTopic().name, messageRequest().key, messageRequest().content)
+		then:
+			1 * adminClientFactory.buildProducer() >> producer
+			1 * producer.send(producerRecord()) >> completedFuture(recordMetadata())
+
+			actual == new Pair(message(), 0)
 	}
 }

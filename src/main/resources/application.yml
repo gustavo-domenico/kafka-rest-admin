@@ -5,7 +5,6 @@ spring:
     ansi:
       enabled: ALWAYS
   kafka:
-
       bootstrap-servers: ${ENV_KAFKA_BOOTSTRAP_SERVERS}
       consumer:
         auto-offset-reset: earliest
@@ -14,7 +13,6 @@ spring:
       producer:
         key-serializer: org.apache.kafka.common.serialization.StringSerializer
         value-serializer: org.apache.kafka.common.serialization.StringSerializer
-
 logging:
   level:
     org.apache.kafka: INFO

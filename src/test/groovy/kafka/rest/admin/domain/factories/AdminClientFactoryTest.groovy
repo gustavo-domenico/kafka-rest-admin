@@ -23,4 +23,12 @@ class AdminClientFactoryTest extends Specification {
 			1 * kafkaAdmin.config >> [:]
 			thrown(ClusterConnectionException)
 	}
+
+	def "buildProducer should return domain specific exception"() {
+		when:
+			adminClientFactory.buildProducer()
+		then:
+			1 * kafkaAdmin.config >> [:]
+			thrown(ClusterConnectionException)
+	}
 }
