@@ -17,6 +17,7 @@ http://localhost:8080/swagger-ui.html
 * Topics
   * List topics
   * Get topic information
+  * Create topics
 * Consumer groups
   * List consumer groups
   * Get consumer group information
@@ -25,6 +26,9 @@ http://localhost:8080/swagger-ui.html
   * Get message raw contant for topic/partition/offset
   * Get message for topic/partition/offset
   * Get messages from topic/partition/offset
+  * Get last messages from a topic/partition
+  * Send a message to the topic
+  * Send a messsage to the topic/partition
   
 ### Quick examples
 
