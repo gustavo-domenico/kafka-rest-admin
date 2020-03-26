@@ -47,4 +47,19 @@ class TopicControllerIntSpec extends IntegrationSpec {
 			mvcResult.andExpect(status().isOk())
 					.andExpect(content().json(newTopicDetailPayload()))
 	}
+
+	def "delete should delete a topic"() {
+		given:
+			mockMvc.perform(
+				post("/topics")
+						.contentType(APPLICATION_JSON)
+						.content(topicRequestPayload()))
+		when:
+		def mvcResult = mockMvc.perform(
+				post("/topics")
+						.contentType(APPLICATION_JSON)
+						.content(topicRequestPayload()))
+		then:
+			mvcResult.andExpect(status().isNoContent())
+	}
 }
