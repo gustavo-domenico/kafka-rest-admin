@@ -39,6 +39,13 @@ class TopicService(val client: AdminClient, val consumer: KafkaConsumer<String, 
                 getTopicDetails(it, name)
             }
 
+    fun remove(name: String): Unit =
+            client.use {
+                    it.deleteTopics(listOf(name))
+                        .all()
+                        .get()
+            }
+
     private fun getTopicDetails(client: AdminClient, name: String): TopicDetail =
             client.describeTopics(mutableListOf(name))
                     .values()[name]!!

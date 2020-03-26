@@ -38,4 +38,11 @@ class TopicControllerSpec extends Specification {
 			1 * topicService.add(topicRequest().name, topicRequest().partitions) >> oneTopicDetail()
 			actual == oneTopicDetailResource()
 	}
+
+	def "delete should delete new topic"() {
+		when:
+			topicController.remove(oneTopic().name)
+		then:
+			1 * topicService.remove(oneTopic().name)
+	}
 }
